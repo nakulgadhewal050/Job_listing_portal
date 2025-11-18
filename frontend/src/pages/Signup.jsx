@@ -6,6 +6,8 @@ import { serverUrl } from '../App.jsx';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setUserData } from '../redux/userSlice.js';
+import { ClipLoader } from 'react-spinners';
+import { Slide, toast } from 'react-toastify';
 
 function Signup() {
 
@@ -21,12 +23,12 @@ function Signup() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  function validateCommon() {
+  function validate() {
     const e = {};
     if (!name.trim()) e.name = 'Full name is required.';
     if (!email.match(/^\S+@\S+\.\S+$/)) e.email = 'Valid email is required.';
     if (password.length < 6) e.password = 'Password must be at least 8 characters.';
-    if (phone && !phone.match(/^\+?[0-9 -]{7,15}$/)) e.phone = 'Enter a valid phone number.';
+    if (phone.length < 10 && !phone.match(/^\+?[0-9 -]{7,15}$/)) e.phone = 'Enter a valid phone number.';
     return e;
   }
 
@@ -43,17 +45,17 @@ function Signup() {
     setPassword('');
     setName('');
     setPhone('');
-    setResumeFile(null);
-    setResumeName('');
-    setHeadline('');
-    setCompanyName('');
-    setCompanyWebsite('');
-    setRoleTitle('');
     setErrors({});
   }
 
   const handleSignup = async () => {
     setLoading(true);
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      setLoading(false);
+      return;
+    }
     try {
       const result = await axios.post(`${serverUrl}/api/auth/signup`, {
         fullname: name, email, password, phone, role
@@ -62,9 +64,20 @@ function Signup() {
       console.log("signup successfully")
       setErrors({});
       setLoading(false);
+      toast.success('Login successful!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
     } catch (error) {
-       setLoading(false);
-       setErrors({ general: error?.response?.data?.message });
+      setLoading(false);
+      setErrors({ general: error?.response?.data?.message });
     }
   }
 
@@ -94,11 +107,11 @@ function Signup() {
         </div>
 
         <div className="space-y-6 max-w-md mx-auto">
-          {/* Shared fields */}
+
           <div>
             <label className="flex flex-col">
               <span className="text-sm font-medium text-gray-700">Full name</span>
-              <input value={name} onChange={e => setName(e.target.value)} className="mt-2 p-2 border rounded-md w-full" placeholder="Your full name" required />
+              <input value={name} onChange={e => setName(e.target.value)} className="mt-2 p-2 border rounded-md w-full" placeholder="Your full name" />
               {errors.name && <small className="text-red-600">{errors.name}</small>}
             </label>
           </div>
@@ -139,14 +152,17 @@ function Signup() {
             </label>
           </div>
 
+          {errors.general && (
+            <div className="text-center text-sm text-red-600 -mt-2">{errors.general}</div>
+          )}
 
           <div className="flex items-center justify-center gap-4">
             <button
               onClick={handleSignup}
               type="submit"
               disabled={loading}
-              className="px-6 py-2 rounded-md bg-indigo-600 text-white font-medium disabled:opacity-60 cursor-pointer">
-              {loading ? 'Creating account...' : 'Create account'}
+              className="w-[120px] py-2 rounded-md bg-indigo-600 text-white font-medium disabled:opacity-60 cursor-pointer flex justify-center">
+              {loading ? <ClipLoader size={20} /> : "Create account"}
             </button>
 
             <button type="button" onClick={resetFields} className="px-4 py-2 rounded-md border cursor-pointer">Reset</button>
@@ -156,7 +172,7 @@ function Signup() {
 
         <hr className="my-6 " />
         <div className="text-sm text-gray-600 flex items-center justify-center">
-          Already have an account? <span className="text-indigo-600 font-medium"
+          Already have an account? <span className="text-indigo-600 font-medium cursor-pointer ml-1"
             onClick={() => navigate("/login")}
           >Log in</span>
         </div>

@@ -15,13 +15,16 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     phone: {
-        type: Number,
+        type: String,
     },
     role: {
         type: String,
         enum: ['seeker', 'employer'],
         required: true
-    }
+    },
+    avatarUrl: { 
+        type: String 
+    },
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);

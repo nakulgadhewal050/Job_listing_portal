@@ -1,12 +1,14 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express, { urlencoded } from 'express';
 const app = express();
 const PORT = 3000;
-import dotenv from "dotenv";
-dotenv.config();
 import cookieParser from "cookie-parser";
 import connectDB from './config/db.js';
 import authRouter from './Router/authRoute.js';
+import profileRouter from './Router/profileRoute.js';
 import cors from 'cors';
+import userRouter from './Router/userRoute.js';
 
 
 app.use(urlencoded({ extended: true }));
@@ -19,6 +21,9 @@ app.use(cors({
 }))
 
 app.use("/api/auth",authRouter);
+app.use('/api/profile', profileRouter);
+app.use('/uploads', express.static('uploads'));
+app.use("/api/user",userRouter);
 
 app.get('/', (req, res)=> {
     res.send("server started")

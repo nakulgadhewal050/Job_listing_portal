@@ -1,0 +1,53 @@
+// Router/profileRoute.js
+import express from 'express'
+import multer from 'multer'
+import path from 'path'
+import fs from 'fs'
+import { protect } from '../middleware/authMiddleware.js'
+import { getMe, updateMe, uploadResume, uploadPhoto } from '../controller/profileController.js'
+
+const router = express.Router()
+
+// Ensure uploads/resumes exists
+const resumesDir = path.resolve('uploads', 'resumes')
+if (!fs.existsSync(resumesDir)) fs.mkdirSync(resumesDir, { recursive: true })
+
+const resumeStorage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, resumesDir),
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname)
+    const base = path.basename(file.originalname, ext).replace(/[^a-z0-9_-]/gi, '_')
+    cb(null, `${Date.now()}_${base}${ext}`)
+  },
+})
+
+const resumeFilter = (req, file, cb) => {
+  const allowed = ['.pdf', '.doc', '.docx']
+  const ext = path.extname(file.originalname).toLowerCase()
+  if (!allowed.includes(ext)) return cb(new Error('Invalid file type'))
+  cb(null, true)
+}
+
+// For photos we will use memory storage and upload directly to Cloudinary
+const photoStorage = multer.memoryStorage()
+
+const photoFilter = (req, file, cb) => {
+  const ext = path.extname(file.originalname).toLowerCase()
+  const allowed = ['.jpg', '.jpeg', '.png', '.webp']
+  if (!allowed.includes(ext)) return cb(new Error('Invalid image type'))
+  cb(null, true)
+}
+
+const uploadResumeMulter = multer({ storage: resumeStorage, fileFilter: resumeFilter, limits: { fileSize: 5 * 1024 * 1024 } })
+const uploadPhotoMulter = multer({ storage: photoStorage, fileFilter: photoFilter, limits: { fileSize: 3 * 1024 * 1024 } })
+
+router.get('/me', protect, getMe)
+// If you want update via JSON body (no file), use this:
+router.put('/me', protect, updateMe)
+// If you prefer update with file upload via form-data on the same endpoint:
+// router.put('/me', protect, uploadPhotoMulter.single('photo'), updateMe)
+
+router.post('/resume', protect, uploadResumeMulter.single('resume'), uploadResume)
+router.post('/photo', protect, uploadPhotoMulter.single('photo'), uploadPhoto)
+
+export default router

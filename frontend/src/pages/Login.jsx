@@ -1,14 +1,15 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FaRegEyeSlash } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { serverUrl } from '../App';
 import { setUserData } from '../redux/userSlice';
+import { ClipLoader } from 'react-spinners';
+import { Slide, toast } from 'react-toastify';
 
-
-   function Login() {
+function Login() {
 
   const [role, setRole] = useState('seeker');
   const [email, setEmail] = useState('');
@@ -18,29 +19,26 @@ import { setUserData } from '../redux/userSlice';
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
- 
 
-  function validateCommon() {
+
+  function validate() {
     const e = {};
-   
+
     if (!email.match(/^\S+@\S+\.\S+$/)) e.email = 'Valid email is required.';
-    if (password.length < 6) e.password = 'Password must be at least 8 characters.';
-    
+    if (password.length < 6) e.password = 'Password must be at least 6 characters.';
+
     return e;
   }
 
-  function passwordStrengthLabel(pw) {
-    if (pw.length >= 12 && /[A-Z]/.test(pw) && /[0-9]/.test(pw) && /[^A-Za-z0-9]/.test(pw)) return 'Very strong';
-    if (pw.length >= 10) return 'Strong';
-    if (pw.length >= 8) return 'Okay';
-    if (!pw) return '';
-    return 'Weak';
-  }
-
   const handleLogin = async () => {
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
     setLoading(true);
     try {
-      const result = await axios.post(`${serverUrl}/api/auth/login`,{
+      const result = await axios.post(`${serverUrl}/api/auth/login`, {
         email, password
       }, { withCredentials: true });
 
@@ -48,11 +46,30 @@ import { setUserData } from '../redux/userSlice';
       console.log("login successfully")
       setErrors({});
       setLoading(false);
+      toast.success('Login successful!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
+      navigate('/');
+
     } catch (error) {
       setLoading(false);
-      setErrors(error?.response?.data?.message);
+      const status = error.response?.status;
+      if (status === 400 || status === 401) {
+        setErrors({ general: 'Invalid email or password' });
+      } else {
+        setErrors({ general: 'Login failed. Please try again.' });
+      }
     }
   }
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6 "
@@ -96,26 +113,27 @@ import { setUserData } from '../redux/userSlice';
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   className="flex-1 p-2 border rounded-l-md"
-                  placeholder="Create a password"
-                  required
-                />
+                  placeholder="Create a password" />
+
                 <button type="button" onClick={() => setShowPassword(s => !s)} className="px-3 bg-gray-100 border rounded-r-md cursor-pointer">
                   {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
                 </button>
               </div>
-              <div className="mt-1 text-xs text-gray-500">{password ? `Strength: ${passwordStrengthLabel(password)}` : 'Add numbers and symbols for stronger password.'}</div>
               {errors.password && <small className="text-red-600">{errors.password}</small>}
             </label>
           </div>
 
 
-          <div className="flex items-center justify-center gap-4">
+          {errors.general && (
+            <div className="text-center text-sm text-red-600 -mt-2">{errors.general}</div>
+          )}
+          <div className="flex items-center justify-center">
             <button
               onClick={handleLogin}
               type="submit"
               disabled={loading}
-              className="px-6 py-2 rounded-md bg-indigo-600 text-white font-medium disabled:opacity-60 cursor-pointer">
-              {loading ? 'Logging in...' : 'Log in'}
+              className="w-[120px] py-2 rounded-md bg-indigo-600 text-white font-medium disabled:opacity-60 cursor-pointer flex justify-center">
+              {loading ? <ClipLoader size={20} /> : "Log in"}
             </button>
           </div>
 
