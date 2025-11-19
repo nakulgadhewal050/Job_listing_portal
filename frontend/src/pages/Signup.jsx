@@ -75,6 +75,7 @@ function Signup() {
         theme: "light",
         transition: Slide,
       });
+      navigate('/');
     } catch (error) {
       setLoading(false);
       setErrors({ general: error?.response?.data?.message });

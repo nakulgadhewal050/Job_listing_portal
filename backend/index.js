@@ -7,6 +7,8 @@ import cookieParser from "cookie-parser";
 import connectDB from './config/db.js';
 import authRouter from './Router/authRoute.js';
 import profileRouter from './Router/profileRoute.js';
+import jobRouter from './Router/jobRoute.js';
+import applicationRouter from './Router/applicationRoute.js';
 import cors from 'cors';
 import userRouter from './Router/userRoute.js';
 
@@ -22,6 +24,8 @@ app.use(cors({
 
 app.use("/api/auth",authRouter);
 app.use('/api/profile', profileRouter);
+app.use('/api/jobs', jobRouter);
+app.use('/api/applications', applicationRouter);
 app.use('/uploads', express.static('uploads'));
 app.use("/api/user",userRouter);
 

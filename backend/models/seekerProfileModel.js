@@ -10,6 +10,12 @@ const seekerProfileSchema = new mongoose.Schema({
     fullname: {
         type: String
     },
+    email: {
+        type: String
+    },
+    phone: {
+        type: String
+    },
     role: {
         type: String,
         default: 'seeker'

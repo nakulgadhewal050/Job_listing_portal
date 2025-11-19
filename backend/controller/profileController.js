@@ -61,6 +61,8 @@ export const updateMe = async (req, res) => {
       
       seekerProfile.fullname = user.fullname
       seekerProfile.role = user.role
+      seekerProfile.email = user.email
+      seekerProfile.phone = user.phone
       if (location !== undefined) seekerProfile.location = location
       if (headline !== undefined) seekerProfile.headline = headline
       if (resumeUrl !== undefined) seekerProfile.resumeUrl = resumeUrl

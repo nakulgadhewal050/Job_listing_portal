@@ -10,6 +10,8 @@ import Profile from './pages/Profile.jsx';
 import getCurrentUser from './hooks/getCurrentUser.jsx';
 import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import MyApplication from './pages/MyApplication.jsx';
+import Applications from './pages/Applications.jsx';
 export const serverUrl = "http://localhost:3000"
 
 
@@ -26,6 +28,8 @@ function App() {
         <Route path='/' element={!userData ? <Home/> : (userData.role === 'seeker' ? <SeekerDashboard/> : <EmployeeDadhboard/>)} />
         <Route path='/seekerprofile' element={<Profile />} />
         <Route path='/profile' element={<Profile />} />
+        <Route path='/myapplication' element={<MyApplication/>} />
+        <Route path='/application' element={<Applications/>} />
       </Routes>
       <ToastContainer
         position="top-right"
