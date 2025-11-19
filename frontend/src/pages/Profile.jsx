@@ -140,7 +140,7 @@ function Profile() {
     return (
       <>
         <Nav />
-        <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50'>
+        <div className='min-h-screen flex items-center justify-center bg-linear-to-br from-indigo-50 via-white to-purple-50'>
           <div className='text-center'>
             <FaUser className='text-6xl text-gray-300 mx-auto mb-4' />
             <p className='text-gray-600 text-lg'>Please log in to view your profile</p>
@@ -153,7 +153,7 @@ function Profile() {
   return (
     <>
       <Nav />
-      <div className='min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 pt-24 pb-16 px-4 sm:px-6 lg:px-8'>
+      <div className='min-h-screen bg-linear-to-br from-indigo-50 via-white to-purple-50 pt-24 pb-16 px-4 sm:px-6 lg:px-8'>
         <div className='max-w-5xl mx-auto'>
           
           {/* Header Card with Avatar */}
@@ -161,7 +161,7 @@ function Profile() {
             <div className='h-32 sm:h-40 bg-linear-to-r from-indigo-600 via-purple-600 to-pink-500 relative'>
               <div className='absolute -bottom-16 left-6 sm:left-10'>
                 <div className='relative group'>
-                  <div className='w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-xl overflow-hidden bg-gradient-to-br from-indigo-400 to-purple-400 flex items-center justify-center'>
+                  <div className='w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-xl overflow-hidden bg-linear-to-br from-indigo-400 to-purple-400 flex items-center justify-center'>
                     {data.avatarUrl ? (
                       <img src={data.avatarUrl} alt='avatar' className='w-full h-full object-cover' />
                     ) : (
@@ -199,9 +199,7 @@ function Profile() {
                 {data.fullname || 'Your Name'}
               </h1>
               <div className='flex flex-wrap items-center gap-4 text-sm text-gray-600'>
-                <span className='px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full font-medium capitalize'>
-                  {role === 'seeker' ? '👤 Job Seeker' : '🏢 Employer'}
-                </span>
+                
                 {data.location && (
                   <span className='flex items-center gap-1'>
                     <FaMapMarkerAlt className='text-indigo-600' />

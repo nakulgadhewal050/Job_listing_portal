@@ -83,7 +83,7 @@ function Signup() {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-linear-to-br from-indigo-100 via-purple-50 to-pink-100 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
@@ -95,10 +95,10 @@ function Signup() {
         <div className="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-8 border border-white/20">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl mb-4 shadow-lg">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-linear-to-br from-indigo-600 to-purple-600 rounded-2xl mb-4 shadow-lg">
               <FaUserTie className="text-white text-2xl" />
             </div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
+            <h1 className="text-3xl font-bold bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
               Create Account
             </h1>
             <p className="text-gray-600">Join our platform and start your journey</p>
@@ -113,7 +113,7 @@ function Signup() {
                 onClick={() => setRole('seeker')}
                 className={`group relative px-4 py-4 rounded-xl font-medium cursor-pointer transition-all duration-300 ${
                   role === 'seeker'
-                    ? 'bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-lg scale-105'
+                    ? 'bg-linear-to-br from-indigo-600 to-purple-600 text-white shadow-lg scale-105'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}>
                 <div className="flex flex-col items-center gap-2">
@@ -129,7 +129,7 @@ function Signup() {
                 onClick={() => setRole('employer')}
                 className={`group relative px-4 py-4 rounded-xl font-medium cursor-pointer transition-all duration-300 ${
                   role === 'employer'
-                    ? 'bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-lg scale-105'
+                    ? 'bg-linear-to-br from-indigo-600 to-purple-600 text-white shadow-lg scale-105'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}>
                 <div className="flex flex-col items-center gap-2">
@@ -253,7 +253,7 @@ function Signup() {
               onClick={handleSignup}
               type="submit"
               disabled={loading}
-              className="flex-1 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2">
+              className="flex-1 py-3 rounded-xl bg-linear-to-r from-indigo-600 to-purple-600 text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2">
               {loading ? (
                 <>
                   <ClipLoader size={20} color="white" />

@@ -81,14 +81,6 @@ export const getJobApplications = async (req, res) => {
 
     const applications = await Application.find({ jobId })
       .populate('seekerId', 'fullname email phone')
-      .populate({
-        path: 'seekerId',
-        populate: {
-          path: 'userId',
-          model: 'User',
-          select: 'fullname email phone'
-        }
-      })
       .sort({ createdAt: -1 })
     
     res.json(applications)
@@ -102,7 +94,7 @@ export const getJobApplications = async (req, res) => {
 export const getEmployerApplications = async (req, res) => {
   try {
     const applications = await Application.find({ employerId: req.userId })
-      .populate('jobId', 'jobTitle location')
+      .populate('jobId', 'jobTitle location jobType salaryRange')
       .populate('seekerId', 'fullname email phone')
       .sort({ createdAt: -1 })
     

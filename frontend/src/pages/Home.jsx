@@ -55,7 +55,7 @@ function Home() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <div className="min-h-screen bg-linear-to-br from-indigo-50 via-white to-purple-50">
       <Nav />
       
       {/* Hero Section */}
@@ -69,7 +69,7 @@ function Home() {
 
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent leading-tight">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-linear-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent leading-tight">
               Find Your Dream Job Today
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
@@ -78,7 +78,7 @@ function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={() => navigate('/signup')}
-                className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all cursor-pointer"
+                className="px-8 py-4 bg-linear-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all cursor-pointer"
               >
                 Get Started - It's Free
               </button>
@@ -95,7 +95,7 @@ function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
             {stats.map((stat, index) => (
               <div key={index} className="bg-white/80 backdrop-blur-lg rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all">
-                <p className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                <p className="text-4xl font-bold bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
                   {stat.number}
                 </p>
                 <p className="text-gray-600 font-medium">{stat.label}</p>
@@ -121,7 +121,7 @@ function Home() {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all border border-gray-100"
+                className="bg-linear-to-br from-gray-50 to-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all border border-gray-100"
               >
                 <div className="mb-4">{feature.icon}</div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
@@ -148,7 +148,7 @@ function Home() {
             {howItWorks.map((item, index) => (
               <div key={index} className="relative">
                 <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 text-white rounded-2xl text-2xl font-bold mb-6 shadow-lg">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-linear-to-br from-indigo-600 to-purple-600 text-white rounded-2xl text-2xl font-bold mb-6 shadow-lg">
                     {item.step}
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-3">{item.title}</h3>
@@ -156,7 +156,7 @@ function Home() {
                 </div>
                 {index < howItWorks.length - 1 && (
                   <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2">
-                    <div className="w-8 h-0.5 bg-gradient-to-r from-indigo-600 to-purple-600"></div>
+                    <div className="w-8 h-0.5 bg-linear-to-r from-indigo-600 to-purple-600"></div>
                   </div>
                 )}
               </div>
@@ -166,7 +166,7 @@ function Home() {
       </section>
 
       {/* For Employers */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-indigo-600 to-purple-600">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-r from-indigo-600 to-purple-600">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-white">
@@ -178,21 +178,21 @@ function Home() {
               </p>
               <div className="space-y-4 mb-8">
                 <div className="flex items-start gap-4">
-                  <FaCheckCircle className="text-2xl flex-shrink-0 mt-1" />
+                  <FaCheckCircle className="text-2xl shrink-0 mt-1" />
                   <div>
                     <h3 className="font-semibold text-lg mb-1">Easy Job Posting</h3>
                     <p className="text-white/80">Create and manage job listings in minutes</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <FaCheckCircle className="text-2xl flex-shrink-0 mt-1" />
+                  <FaCheckCircle className="text-2xl shrink-0 mt-1" />
                   <div>
                     <h3 className="font-semibold text-lg mb-1">Application Management</h3>
                     <p className="text-white/80">Review, filter, and track all applications in one place</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <FaCheckCircle className="text-2xl flex-shrink-0 mt-1" />
+                  <FaCheckCircle className="text-2xl shrink-0 mt-1" />
                   <div>
                     <h3 className="font-semibold text-lg mb-1">Quality Candidates</h3>
                     <p className="text-white/80">Access a pool of verified, talented professionals</p>
@@ -248,7 +248,7 @@ function Home() {
           </p>
           <button
             onClick={() => navigate('/signup')}
-            className="px-10 py-5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-bold text-xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all cursor-pointer"
+            className="px-10 py-5 bg-linear-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-bold text-xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all cursor-pointer"
           >
             Create Free Account
           </button>

@@ -240,7 +240,7 @@ function EmployeeDashboard() {
                         <FaTrash />
                       </button>
                       <button
-                        onClick={() => viewApplications(job._id)}
+                        onClick={() => viewApplications(job)}
                         className='p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all cursor-pointer'
                         title='View applications'
                       >
