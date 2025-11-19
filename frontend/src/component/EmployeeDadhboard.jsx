@@ -162,7 +162,7 @@ function EmployeeDashboard() {
   return (
     <>
       <Nav />
-      <div className='min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 pt-24 pb-16 px-4 sm:px-6 lg:px-8'>
+      <div className='min-h-screen bg-linear-to-br from-indigo-50 via-white to-purple-50 pt-24 pb-16 px-4 sm:px-6 lg:px-8'>
         <div className='max-w-7xl mx-auto'>
           {/* Header */}
           <div className='bg-white rounded-2xl shadow-xl p-6 sm:p-8 mb-8'>

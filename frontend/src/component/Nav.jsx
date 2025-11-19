@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { FaMapMarkerAlt, FaSearch, FaBell, FaBookmark } from 'react-icons/fa'
-import { IoCloseSharp } from 'react-icons/io5'
+import { FaBriefcase, FaUser, FaFileAlt, FaSignOutAlt, FaTachometerAlt, FaBars, FaTimes } from 'react-icons/fa'
 import axios from 'axios'
 import { serverUrl } from '../App'
 import { useDispatch, useSelector } from 'react-redux'
@@ -15,15 +14,24 @@ export default function Nav() {
 
   const [openMobile, setOpenMobile] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
-  const [showSearch, setShowSearch] = useState(false)
-  const [query, setQuery] = useState('')
-  const [location, setLocation] = useState('Anywhere')
+  const profileRef = useRef(null)
 
   const capitalize = (str) => {
     if (!str) return ''
     const s = String(str).trim()
     return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
   }
+
+  // Close profile dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setShowProfile(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const handleLogout = async () => {
     try {
@@ -36,75 +44,186 @@ export default function Nav() {
     }
   }
 
-  const handleSearch = (e) => {
-    e?.preventDefault()
-    const params = new URLSearchParams()
-    if (query) params.set('q', query)
-    if (location) params.set('loc', location)
-    navigate(`/jobs?${params.toString()}`)
-    setShowSearch(false)
-    setOpenMobile(false)
-  }
-
   return (
-    <header className="w-full fixed top-0 z-50 bg-white/95 backdrop-blur border-b">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-6">
-        {/* Left: Logo */}
-        <div className="flex items-center">
-          <Link to="/" className="text-2xl font-bold text-indigo-600">JobPortal</Link>
-        </div>
-
-
-        {/* Right: Icons + Auth/Profile */}
-        <div className="flex items-center gap-4">
-          <div className="hidden md:flex items-center gap-3">
-            <button onClick={() => navigate('/notifications')} className="relative p-2 rounded-md hover:bg-gray-100">
-              <FaBell className="text-gray-700" />
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1">3</span>
-            </button>
+    <nav className="w-full fixed top-0 z-50 bg-linear-to-r from-indigo-600 via-purple-600 to-pink-600 shadow-lg">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex items-center">
+            <Link to="/" className="flex items-center gap-2 group">
+              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                <FaBriefcase className="text-indigo-600 text-xl" />
+              </div>
+              <span className="text-2xl font-bold text-white hidden sm:block">JobPortal</span>
+            </Link>
           </div>
 
-          {userData ? (
-            <div className="relative">
-              <button
-                onClick={() => setShowProfile((s) => !s)}
-                className="w-9 h-9 rounded-full overflow-hidden bg-indigo-600 text-white flex items-center justify-center font-semibold cursor-pointer"
-                aria-label="Profile menu"
+          {/* Desktop Navigation */}
+          {userData && (
+            <div className="hidden md:flex items-center gap-6">
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                    isActive
+                      ? 'bg-white text-indigo-600 shadow-md'
+                      : 'text-white hover:bg-white/20'
+                  }`
+                }
               >
-                {userData?.avatarUrl ? (
-                  <img src={userData.avatarUrl} alt="avatar" className="w-full h-full object-cover" />
-                ) : (
-                  userData?.fullname?.[0]?.toUpperCase() || userData?.name?.[0]?.toUpperCase() || 'U'
-                )}
-              </button>
-              {showProfile && (
-                <div className="absolute right-0 mt-2 w-44 bg-white shadow-lg rounded-lg p-3 text-sm">
-                  <div className="font-medium">{capitalize(userData.fullname || userData.name)}</div>
-                  <div className="text-gray-500 text-xs mb-2">{userData.role}</div>
-                  <button onClick={() => { navigate('/seekerprofile'); setShowProfile(false); }} className="w-full text-left py-1 hover:bg-gray-50 rounded">Profile</button>
-                  {role === 'seeker' && <button onClick={() => { navigate('/myapplication'); setShowProfile(false); }} className="w-full text-left py-1 hover:bg-gray-50 rounded">My Applications</button>}
-                  {role === 'employer' && <button onClick={() => { navigate('/application'); setShowProfile(false); }} className="w-full text-left py-1 hover:bg-gray-50 rounded">Applications</button>}
-                  <button onClick={handleLogout} className="w-full text-left py-1 text-red-600 hover:bg-gray-50 rounded">Logout</button>
-                </div>
+                <FaTachometerAlt />
+                <span>Dashboard</span>
+              </NavLink>
+              
+              <NavLink
+                to="/seekerprofile"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                    isActive
+                      ? 'bg-white text-indigo-600 shadow-md'
+                      : 'text-white hover:bg-white/20'
+                  }`
+                }
+              >
+                <FaUser />
+                <span>Profile</span>
+              </NavLink>
+
+              {role === 'seeker' && (
+                <NavLink
+                  to="/myapplication"
+                  className={({ isActive }) =>
+                    `flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                      isActive
+                        ? 'bg-white text-indigo-600 shadow-md'
+                        : 'text-white hover:bg-white/20'
+                    }`
+                  }
+                >
+                  <FaFileAlt />
+                  <span>My Applications</span>
+                </NavLink>
               )}
-            </div>
-          ) : (
-            <div className="hidden md:flex items-center gap-2">
-              <Link to="/signup" className="px-3 py-1 rounded-md border text-sm">Sign up</Link>
-              <Link to="/login" className="px-3 py-1 rounded-md bg-indigo-600 text-white text-sm">Log in</Link>
+
+              {role === 'employer' && (
+                <NavLink
+                  to="/application"
+                  className={({ isActive }) =>
+                    `flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                      isActive
+                        ? 'bg-white text-indigo-600 shadow-md'
+                        : 'text-white hover:bg-white/20'
+                    }`
+                  }
+                >
+                  <FaFileAlt />
+                  <span>Applications</span>
+                </NavLink>
+              )}
             </div>
           )}
 
-          {/* Mobile toggles (search & menu) */}
-          <div className="md:hidden flex items-center gap-2">
-            <button onClick={() => setShowSearch((s) => !s)} className="p-2 rounded-md">
-              {showSearch ? <IoCloseSharp size={18} /> : <FaSearch size={16} />}
-            </button>
-            <button onClick={() => setOpenMobile((s) => !s)} className="p-2 rounded-md border">
-              <span className="sr-only">Open menu</span>
-              <div className="w-5 h-0.5 bg-gray-800 mb-1" />
-              <div className="w-5 h-0.5 bg-gray-800 mb-1" />
-              <div className="w-5 h-0.5 bg-gray-800" />
+          {/* Right Side */}
+          <div className="flex items-center gap-4">
+            {userData ? (
+              <div className="relative" ref={profileRef}>
+                <button
+                  onClick={() => setShowProfile((s) => !s)}
+                  className="flex items-center gap-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm px-4 py-2 rounded-lg transition-all cursor-pointer border border-white/30"
+                  aria-label="Profile menu"
+                >
+                  <div className="w-8 h-8 rounded-full overflow-hidden bg-white flex items-center justify-center font-semibold text-indigo-600 shadow-md">
+                    {userData?.avatarUrl ? (
+                      <img src={userData.avatarUrl} alt="avatar" className="w-full h-full object-cover" />
+                    ) : (
+                      userData?.fullname?.[0]?.toUpperCase() || userData?.name?.[0]?.toUpperCase() || 'U'
+                    )}
+                  </div>
+                  <div className="hidden md:block text-left">
+                    <p className="text-sm font-semibold text-white">{capitalize(userData.fullname || userData.name)}</p>
+                  </div>
+                </button>
+                
+                {showProfile && (
+                  <div className="absolute right-0 mt-2 w-56 bg-white shadow-2xl rounded-xl overflow-hidden border border-gray-200 animate-fadeIn">
+                    <div className="bg-linear-to-r from-indigo-600 to-purple-600 px-4 py-3">
+                      <p className="font-semibold text-white">{capitalize(userData.fullname || userData.name)}</p>
+                      <p className="text-xs text-white/90 ">{userData.email}</p>
+                    </div>
+                    
+                    <div className="p-2">
+                      <button
+                        onClick={() => { navigate('/'); setShowProfile(false); }}
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-left text-gray-700 hover:bg-indigo-50 rounded-lg transition-all"
+                      >
+                        <FaTachometerAlt className="text-indigo-600" />
+                        <span>Dashboard</span>
+                      </button>
+                      
+                      <button
+                        onClick={() => { navigate('/seekerprofile'); setShowProfile(false); }}
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-left text-gray-700 hover:bg-indigo-50 rounded-lg transition-all"
+                      >
+                        <FaUser className="text-indigo-600" />
+                        <span>Profile</span>
+                      </button>
+
+                      {role === 'seeker' && (
+                        <button
+                          onClick={() => { navigate('/myapplication'); setShowProfile(false); }}
+                          className="w-full flex items-center gap-3 px-4 py-2.5 text-left text-gray-700 hover:bg-indigo-50 rounded-lg transition-all"
+                        >
+                          <FaFileAlt className="text-indigo-600" />
+                          <span>My Applications</span>
+                        </button>
+                      )}
+
+                      {role === 'employer' && (
+                        <button
+                          onClick={() => { navigate('/application'); setShowProfile(false); }}
+                          className="w-full flex items-center gap-3 px-4 py-2.5 text-left text-gray-700 hover:bg-indigo-50 rounded-lg transition-all"
+                        >
+                          <FaFileAlt className="text-indigo-600" />
+                          <span>View Applications</span>
+                        </button>
+                      )}
+
+                      <div className="border-t border-gray-200 my-2"></div>
+                      
+                      <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-left text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                      >
+                        <FaSignOutAlt />
+                        <span>Logout</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="hidden md:flex items-center gap-3">
+                <Link
+                  to="/login"
+                  className="px-4 py-2 text-white font-medium hover:bg-white/20 rounded-lg transition-all"
+                >
+                  Log in
+                </Link>
+                <Link
+                  to="/signup"
+                  className="px-4 py-2 bg-white text-indigo-600 font-semibold rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all"
+                >
+                  Sign up
+                </Link>
+              </div>
+            )}
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setOpenMobile((s) => !s)}
+              className="md:hidden p-2 text-white hover:bg-white/20 rounded-lg transition-all"
+            >
+              {openMobile ? <FaTimes size={24} /> : <FaBars size={24} />}
             </button>
           </div>
         </div>
@@ -113,25 +232,78 @@ export default function Nav() {
 
       {/* Mobile drawer */}
       {openMobile && (
-        <div className="md:hidden border-t bg-white">
-          <div className="px-4 py-4 flex flex-col gap-3">
-            <div className="border-t my-1" />
+        <div className="md:hidden bg-white border-t border-white/20 shadow-lg">
+          <div className="px-4 py-4 space-y-2">
             {userData ? (
               <>
-                <button onClick={() => { navigate('/seekerprofile'); setOpenMobile(false); }} className="py-2 text-left">Profile</button>
-                {role === 'seeker' && <button onClick={() => { navigate('/applications'); setOpenMobile(false); }} className="py-2 text-left">My Applications</button>}
-                <button onClick={() => { handleLogout(); setOpenMobile(false); }} className="py-2 text-left text-red-600">Logout</button>
+                <button
+                  onClick={() => { navigate('/'); setOpenMobile(false); }}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700 bg-gray-50 hover:bg-indigo-50 rounded-lg transition-all font-medium"
+                >
+                  <FaTachometerAlt className="text-indigo-600" />
+                  <span>Dashboard</span>
+                </button>
+                
+                <button
+                  onClick={() => { navigate('/seekerprofile'); setOpenMobile(false); }}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700 bg-gray-50 hover:bg-indigo-50 rounded-lg transition-all font-medium"
+                >
+                  <FaUser className="text-indigo-600" />
+                  <span>Profile</span>
+                </button>
+
+                {role === 'seeker' && (
+                  <button
+                    onClick={() => { navigate('/myapplication'); setOpenMobile(false); }}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700 bg-gray-50 hover:bg-indigo-50 rounded-lg transition-all font-medium"
+                  >
+                    <FaFileAlt className="text-indigo-600" />
+                    <span>My Applications</span>
+                  </button>
+                )}
+
+                {role === 'employer' && (
+                  <button
+                    onClick={() => { navigate('/application'); setOpenMobile(false); }}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700 bg-gray-50 hover:bg-indigo-50 rounded-lg transition-all font-medium"
+                  >
+                    <FaFileAlt className="text-indigo-600" />
+                    <span>View Applications</span>
+                  </button>
+                )}
+
+                <div className="border-t border-gray-200 my-2"></div>
+                
+                <button
+                  onClick={() => { handleLogout(); setOpenMobile(false); }}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-left text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all font-medium"
+                >
+                  <FaSignOutAlt />
+                  <span>Logout</span>
+                </button>
               </>
             ) : (
               <>
-                <Link onClick={() => setOpenMobile(false)} to="/signup" className="py-2">Sign up</Link>
-                <Link onClick={() => setOpenMobile(false)} to="/login" className="py-2">Log in</Link>
+                <Link
+                  onClick={() => setOpenMobile(false)}
+                  to="/login"
+                  className="block w-full px-4 py-3 text-center text-gray-700 bg-gray-50 hover:bg-gray-100 rounded-lg font-medium transition-all"
+                >
+                  Log in
+                </Link>
+                <Link
+                  onClick={() => setOpenMobile(false)}
+                  to="/signup"
+                  className="block w-full px-4 py-3 text-center text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg font-semibold shadow-md transition-all"
+                >
+                  Sign up
+                </Link>
               </>
             )}
           </div>
         </div>
       )}
-    </header>
+    </nav>
   )
 }
 

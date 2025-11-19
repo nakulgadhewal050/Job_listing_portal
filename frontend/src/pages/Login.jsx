@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { FaRegEyeSlash } from "react-icons/fa";
-import { FaRegEye } from "react-icons/fa";
+import { FaRegEyeSlash, FaRegEye, FaEnvelope, FaLock, FaSignInAlt } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { serverUrl } from '../App';
@@ -72,76 +71,108 @@ function Login() {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6 "
-      style={{
-        backgroundImage:
-          "url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1400&q=80')",
-      }}>
-      <div className="max-w-3xl w-full rounded-2xl shadow-lg p-6 md:p-5 bg-white opacity-90 ">
-        <h1 className="text-2xl md:text-3xl font-semibold mb-2 flex items-center justify-center">Create an account</h1>
-        <p className="text-sm text-gray-500 mb-6 flex items-center justify-center">Choose your account type and fill the details to get started.</p>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-100 via-indigo-50 to-purple-100 relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+      </div>
 
-        {/* roles */}
-        <div className="flex gap-2 mb-6 items-center justify-center">
-          <button
-            onClick={() => setRole('seeker')}
-            className={`px-4 py-2 rounded-md font-medium cursor-pointer ${role === 'seeker' ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700'}`}>
-            Job Seeker
-          </button>
-          <button
-            onClick={() => setRole('employer')}
-            className={`px-4 py-2 rounded-md font-medium cursor-pointer ${role === 'employer' ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700'}`}>
-            Employer
-          </button>
-        </div>
-
-        <div className="space-y-6 max-w-md mx-auto">
-          <div>
-            <label className="flex flex-col">
-              <span className="text-sm font-medium text-gray-700">Email</span>
-              <input value={email} onChange={e => setEmail(e.target.value)} className="mt-2 p-2 border rounded-md w-full" placeholder="you@example.com" required />
-              {errors.email && <small className="text-red-600">{errors.email}</small>}
-            </label>
+      <div className="max-w-md w-full relative z-10">
+        <div className="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-8 border border-white/20">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl mb-4 shadow-lg">
+              <FaSignInAlt className="text-white text-2xl" />
+            </div>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+              Welcome Back
+            </h1>
+            <p className="text-gray-600">Log in to continue your journey</p>
           </div>
 
-          <div>
-            <label className="flex flex-col">
-              <span className="text-sm font-medium text-gray-700">Password</span>
-              <div className="mt-2 flex">
+          <div className="space-y-5">
+            {/* Email */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <FaEnvelope className="text-gray-400" />
+                </div>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  placeholder="you@example.com"
+                />
+              </div>
+              {errors.email && <small className="text-red-500 text-xs mt-1">{errors.email}</small>}
+            </div>
+
+            {/* Password */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <FaLock className="text-gray-400" />
+                </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  className="flex-1 p-2 border rounded-l-md"
-                  placeholder="Create a password" />
-
-                <button type="button" onClick={() => setShowPassword(s => !s)} className="px-3 bg-gray-100 border rounded-r-md cursor-pointer">
+                  className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  placeholder="Enter your password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(s => !s)}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-400 hover:text-gray-600">
                   {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
                 </button>
               </div>
-              {errors.password && <small className="text-red-600">{errors.password}</small>}
-            </label>
+              {errors.password && <small className="text-red-500 text-xs mt-1">{errors.password}</small>}
+            </div>
           </div>
-
 
           {errors.general && (
-            <div className="text-center text-sm text-red-600 -mt-2">{errors.general}</div>
+            <div className="text-center text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg p-3 mt-4">
+              {errors.general}
+            </div>
           )}
-          <div className="flex items-center justify-center">
-            <button
-              onClick={handleLogin}
-              type="submit"
-              disabled={loading}
-              className="w-[120px] py-2 rounded-md bg-indigo-600 text-white font-medium disabled:opacity-60 cursor-pointer flex justify-center">
-              {loading ? <ClipLoader size={20} /> : "Log in"}
-            </button>
+
+          {/* Login Button */}
+          <button
+            onClick={handleLogin}
+            type="submit"
+            disabled={loading}
+            className="w-full mt-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2">
+            {loading ? (
+              <>
+                <ClipLoader size={20} color="white" />
+                <span>Logging in...</span>
+              </>
+            ) : (
+              <>
+                <FaSignInAlt />
+                <span>Log In</span>
+              </>
+            )}
+          </button>
+
+          {/* Footer */}
+          <div className="mt-6 pt-6 border-t border-gray-200 text-center">
+            <p className="text-gray-600">
+              Don't have an account?{' '}
+              <button
+                type="button"
+                onClick={() => navigate("/signup")}
+                className="text-blue-600 font-semibold hover:text-indigo-600 transition-colors cursor-pointer">
+                Sign up
+              </button>
+            </p>
           </div>
-
-        </div>
-
-        <hr className="my-6 " />
-        <div className="text-sm text-gray-600 flex items-center justify-center">
-          Create new account? <span onClick={() => navigate("/signup")} className="text-indigo-600 font-medium cursor-pointer">Sign up</span>
         </div>
       </div>
     </div>
