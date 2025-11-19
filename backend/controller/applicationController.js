@@ -2,7 +2,7 @@ import Application from '../models/applicationModel.js'
 import Job from '../models/jobModel.js'
 import SeekerProfile from '../models/seekerProfileModel.js'
 
-// Apply for a job
+
 export const applyForJob = async (req, res) => {
   try {
     const { jobId, coverLetter } = req.body
@@ -12,7 +12,6 @@ export const applyForJob = async (req, res) => {
       return res.status(400).json({ message: 'Job ID is required' })
     }
 
-    // Check if job exists
     const job = await Job.findById(jobId)
     if (!job) {
       return res.status(404).json({ message: 'Job not found' })
@@ -22,13 +21,11 @@ export const applyForJob = async (req, res) => {
       return res.status(400).json({ message: 'This job is no longer accepting applications' })
     }
 
-    // Check if already applied
     const existingApplication = await Application.findOne({ jobId, seekerId })
     if (existingApplication) {
       return res.status(400).json({ message: 'You have already applied for this job' })
     }
 
-    // Get seeker profile for resume
     const seekerProfile = await SeekerProfile.findOne({ userId: seekerId })
     
     const application = await Application.create({
@@ -49,7 +46,7 @@ export const applyForJob = async (req, res) => {
   }
 }
 
-// Get my applications (for job seekers)
+
 export const getMyApplications = async (req, res) => {
   try {
     const applications = await Application.find({ seekerId: req.userId })
@@ -64,12 +61,12 @@ export const getMyApplications = async (req, res) => {
   }
 }
 
-// Get applications for a job (for employers)
+
 export const getJobApplications = async (req, res) => {
   try {
     const { jobId } = req.params
     
-    // Verify job belongs to employer
+
     const job = await Job.findById(jobId)
     if (!job) {
       return res.status(404).json({ message: 'Job not found' })
@@ -90,7 +87,7 @@ export const getJobApplications = async (req, res) => {
   }
 }
 
-// Get all applications for employer
+
 export const getEmployerApplications = async (req, res) => {
   try {
     const applications = await Application.find({ employerId: req.userId })
@@ -105,7 +102,7 @@ export const getEmployerApplications = async (req, res) => {
   }
 }
 
-// Update application status (for employers)
+
 export const updateApplicationStatus = async (req, res) => {
   try {
     const { id } = req.params
@@ -125,7 +122,7 @@ export const updateApplicationStatus = async (req, res) => {
       return res.status(404).json({ message: 'Application not found' })
     }
 
-    // Verify employer owns this application
+
     if (application.employerId.toString() !== req.userId) {
       return res.status(403).json({ message: 'Not authorized to update this application' })
     }
@@ -142,7 +139,7 @@ export const updateApplicationStatus = async (req, res) => {
   }
 }
 
-// Delete application
+
 export const deleteApplication = async (req, res) => {
   try {
     const { id } = req.params
@@ -152,7 +149,7 @@ export const deleteApplication = async (req, res) => {
       return res.status(404).json({ message: 'Application not found' })
     }
 
-    // Only seeker can delete their own application
+
     if (application.seekerId.toString() !== req.userId) {
       return res.status(403).json({ message: 'Not authorized to delete this application' })
     }
@@ -166,7 +163,7 @@ export const deleteApplication = async (req, res) => {
   }
 }
 
-// Check if user has applied for a job
+
 export const checkApplicationStatus = async (req, res) => {
   try {
     const { jobId } = req.params

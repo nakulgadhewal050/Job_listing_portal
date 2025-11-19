@@ -1,8 +1,6 @@
-// Router/profileRoute.js
 import express from 'express'
 import multer from 'multer'
 import path from 'path'
-import fs from 'fs'
 import { protect } from '../middleware/authMiddleware.js'
 import { getMe, updateMe, uploadResume, uploadPhoto } from '../controller/profileController.js'
 
@@ -15,7 +13,6 @@ const resumeFilter = (req, file, cb) => {
   cb(null, true)
 }
 
-// For photos and resumes we will use memory storage and upload directly to Cloudinary
  const photoStorage = multer.memoryStorage()
  const resumeStorage = multer.memoryStorage()
 
@@ -30,11 +27,7 @@ const uploadResumeMulter = multer({ storage: resumeStorage, fileFilter: resumeFi
 const uploadPhotoMulter = multer({ storage: photoStorage, fileFilter: photoFilter, limits: { fileSize: 3 * 1024 * 1024 } })
 
 router.get('/me', protect, getMe)
-// If you want update via JSON body (no file), use this:
 router.put('/me', protect, updateMe)
-// If you prefer update with file upload via form-data on the same endpoint:
-// router.put('/me', protect, uploadPhotoMulter.single('photo'), updateMe)
-
 router.post('/resume', protect, uploadResumeMulter.single('resume'), uploadResume)
 router.post('/photo', protect, uploadPhotoMulter.single('photo'), uploadPhoto)
 

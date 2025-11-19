@@ -32,7 +32,6 @@ const applicationSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-// Prevent duplicate applications
 applicationSchema.index({ jobId: 1, seekerId: 1 }, { unique: true });
 
 const Application = mongoose.model('Application', applicationSchema);

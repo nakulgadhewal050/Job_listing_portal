@@ -1,4 +1,3 @@
-// controllers/profileController.js
 import User from '../models/userModel.js'
 import SeekerProfile from '../models/seekerProfileModel.js'
 import EmployerProfile from '../models/employerProfileModel.js'
@@ -37,20 +36,14 @@ export const updateMe = async (req, res) => {
     if (!user) return res.status(404).json({ message: 'User not found' })
     
     const { fullname, phone } = req.body
-    
-    // Update base user fields
     if (fullname) user.fullname = fullname
     if (phone) user.phone = phone
-    
-    // Handle photo upload
     if (req.file) {
       const avatarUrl = await uploadOnCloudinary(req.file)
       user.avatarUrl = avatarUrl
     }
-    
     await user.save()
     
-    // Update role-specific profile
     if (user.role === 'seeker') {
       const { location, headline, resumeUrl, degree, institution, fieldOfStudy, graduationYear, cgpa, experiences } = req.body
       
@@ -90,7 +83,6 @@ export const updateMe = async (req, res) => {
       if (contactPhone !== undefined) employerProfile.contactPhone = contactPhone
       if (contactEmail !== undefined) employerProfile.contactEmail = contactEmail
       
-      // Avatar for employer
       if (req.file) {
         employerProfile.avatarUrl = user.avatarUrl
       }
@@ -98,7 +90,6 @@ export const updateMe = async (req, res) => {
       await employerProfile.save()
     }
     
-    // Return updated data
     const updatedUser = await User.findById(userId).select('-password')
     let responseData = { ...updatedUser.toObject() }
     
@@ -122,10 +113,9 @@ export const uploadResume = async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ message: 'No file uploaded' })
     
-    // Upload resume to Cloudinary
     const resumeUrl = await uploadOnCloudinary(req.file, { 
       folder: 'job-portal/resumes',
-      resource_type: 'raw' // For non-image files like PDFs
+      resource_type: 'raw' 
     })
     
     const user = await User.findById(req.userId)
@@ -158,7 +148,6 @@ export const uploadPhoto = async (req, res) => {
     user.avatarUrl = avatarUrl
     await user.save()
     
-    // Also update employer profile if employer
     if (user.role === 'employer') {
       let employerProfile = await EmployerProfile.findOne({ userId: req.userId })
       if (!employerProfile) {

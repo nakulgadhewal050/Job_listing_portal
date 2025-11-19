@@ -10,7 +10,7 @@ router.get('/my-jobs', protect, getMyJobs)
 router.put('/:id', protect, updateJob)
 router.delete('/:id', protect, deleteJob)
 
-// Public routes
+// seeker routes
 router.get('/', getAllJobs)
 router.get('/:id', getJobById)
 

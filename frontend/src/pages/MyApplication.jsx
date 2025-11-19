@@ -78,14 +78,11 @@ function MyApplication() {
                             <FaBriefcase className='mx-auto text-gray-400 mb-4' size={64} />
                             <h3 className='text-xl font-semibold text-gray-900 mb-2'>No Applications Yet</h3>
                             <p className='text-gray-600 mb-6'>Start applying for jobs to see them here</p>
-                            <a
-                                href='/'
-                                className='inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-all cursor-pointer'
-                            >
+                            <a href='/'
+                                className='inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-all cursor-pointer'>
                                 Browse Jobs
                             </a>
-                        </div>
-                    ) : (
+                        </div> ) : (
                         <div className='space-y-6'>
                             {applications.map((app) => (
                                 <div key={app._id} className='bg-white rounded-xl shadow-lg hover:shadow-xl transition-all p-6 border border-gray-100'>

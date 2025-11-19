@@ -1,6 +1,6 @@
 import Job from '../models/jobModel.js'
 
-// Create a new job
+
 export const createJob = async (req, res) => {
   try {
     const { jobTitle, description, qualifications, responsibilities, location, salaryRange, jobType } = req.body
@@ -27,7 +27,7 @@ export const createJob = async (req, res) => {
   }
 }
 
-// Get all jobs for an employer
+
 export const getMyJobs = async (req, res) => {
   try {
     const jobs = await Job.find({ employerId: req.userId }).sort({ createdAt: -1 })
@@ -38,7 +38,7 @@ export const getMyJobs = async (req, res) => {
   }
 }
 
-// Get all active jobs (for seekers)
+
 export const getAllJobs = async (req, res) => {
   try {
     const jobs = await Job.find({ status: 'active' })
@@ -51,7 +51,7 @@ export const getAllJobs = async (req, res) => {
   }
 }
 
-// Get single job by ID
+
 export const getJobById = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id).populate('employerId', 'fullname email')
@@ -65,7 +65,7 @@ export const getJobById = async (req, res) => {
   }
 }
 
-// Update a job
+
 export const updateJob = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id)
@@ -98,7 +98,7 @@ export const updateJob = async (req, res) => {
   }
 }
 
-// Delete a job
+
 export const deleteJob = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id)

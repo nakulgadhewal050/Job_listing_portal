@@ -29,6 +29,7 @@ const seekerProfileSchema = new mongoose.Schema({
     resumeUrl: {
         type: String
     },
+
     // Academic Details
     degree: {
         type: String
@@ -45,6 +46,7 @@ const seekerProfileSchema = new mongoose.Schema({
     cgpa: {
         type: String
     },
+    
     // Work Experience
     experiences: [{
         jobTitle: {

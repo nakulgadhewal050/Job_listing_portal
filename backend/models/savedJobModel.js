@@ -13,7 +13,6 @@ const savedJobSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-// Prevent duplicate saved jobs
 savedJobSchema.index({ userId: 1, jobId: 1 }, { unique: true });
 
 const SavedJob = mongoose.model('SavedJob', savedJobSchema);

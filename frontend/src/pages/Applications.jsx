@@ -32,7 +32,7 @@ function Applications() {
 
   const updateApplicationStatus = async (id, newStatus) => {
     try {
-      await axios.put(`${serverUrl}/api/applications/${id}/status`, 
+      await axios.put(`${serverUrl}/api/applications/${id}/status`,
         { status: newStatus },
         { withCredentials: true }
       )
@@ -61,13 +61,9 @@ function Applications() {
 
   useEffect(() => {
     let filtered = applications
-
-    // Filter by status
     if (statusFilter !== 'all') {
       filtered = filtered.filter(app => app.status === statusFilter)
     }
-
-    // Filter by search term
     if (searchTerm) {
       filtered = filtered.filter(app =>
         app.seekerId?.fullname?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -75,7 +71,6 @@ function Applications() {
         app.jobId?.jobTitle?.toLowerCase().includes(searchTerm.toLowerCase())
       )
     }
-
     setFilteredApplications(filtered)
   }, [statusFilter, searchTerm, applications])
 
@@ -184,7 +179,7 @@ function Applications() {
                 {applications.length === 0 ? 'No Applications Yet' : 'No Matching Applications'}
               </h3>
               <p className='text-gray-600'>
-                {applications.length === 0 
+                {applications.length === 0
                   ? 'Applications will appear here once candidates start applying'
                   : 'Try adjusting your filters or search term'
                 }

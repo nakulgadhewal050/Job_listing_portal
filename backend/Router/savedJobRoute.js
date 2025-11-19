@@ -10,7 +10,6 @@ import {
 
 const router = express.Router();
 
-// All routes require authentication
 router.post('/save', protect, saveJob);
 router.get('/my-saved-jobs', protect, getSavedJobs);
 router.get('/saved-ids', protect, getSavedJobIds);
