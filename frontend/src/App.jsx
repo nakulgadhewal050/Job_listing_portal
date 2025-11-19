@@ -12,6 +12,7 @@ import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import MyApplication from './pages/MyApplication.jsx';
 import Applications from './pages/Applications.jsx';
+import SavedJobs from './pages/SavedJobs.jsx';
 export const serverUrl = "http://localhost:3000"
 
 
@@ -29,6 +30,7 @@ function App() {
         <Route path='/seekerprofile' element={<Profile />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/myapplication' element={<MyApplication/>} />
+        <Route path='/savedjobs' element={<SavedJobs/>} />
         <Route path='/application' element={<Applications/>} />
       </Routes>
       <ToastContainer

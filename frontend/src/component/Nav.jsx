@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { FaBriefcase, FaUser, FaFileAlt, FaSignOutAlt, FaTachometerAlt, FaBars, FaTimes } from 'react-icons/fa'
+import { FaBriefcase, FaUser, FaFileAlt, FaSignOutAlt, FaTachometerAlt, FaBars, FaTimes, FaBookmark } from 'react-icons/fa'
 import axios from 'axios'
 import { serverUrl } from '../App'
 import { useDispatch, useSelector } from 'react-redux'
@@ -90,19 +90,34 @@ export default function Nav() {
               </NavLink>
 
               {role === 'seeker' && (
-                <NavLink
-                  to="/myapplication"
-                  className={({ isActive }) =>
-                    `flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
-                      isActive
-                        ? 'bg-white text-indigo-600 shadow-md'
-                        : 'text-white hover:bg-white/20'
-                    }`
-                  }
-                >
-                  <FaFileAlt />
-                  <span>My Applications</span>
-                </NavLink>
+                <>
+                  <NavLink
+                    to="/savedjobs"
+                    className={({ isActive }) =>
+                      `flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                        isActive
+                          ? 'bg-white text-indigo-600 shadow-md'
+                          : 'text-white hover:bg-white/20'
+                      }`
+                    }
+                  >
+                    <FaBookmark />
+                    <span>Saved Jobs</span>
+                  </NavLink>
+                  <NavLink
+                    to="/myapplication"
+                    className={({ isActive }) =>
+                      `flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                        isActive
+                          ? 'bg-white text-indigo-600 shadow-md'
+                          : 'text-white hover:bg-white/20'
+                      }`
+                    }
+                  >
+                    <FaFileAlt />
+                    <span>My Applications</span>
+                  </NavLink>
+                </>
               )}
 
               {role === 'employer' && (
@@ -169,13 +184,22 @@ export default function Nav() {
                       </button>
 
                       {role === 'seeker' && (
-                        <button
-                          onClick={() => { navigate('/myapplication'); setShowProfile(false); }}
-                          className="w-full flex items-center gap-3 px-4 py-2.5 text-left text-gray-700 hover:bg-indigo-50 rounded-lg transition-all"
-                        >
-                          <FaFileAlt className="text-indigo-600" />
-                          <span>My Applications</span>
-                        </button>
+                        <>
+                          <button
+                            onClick={() => { navigate('/savedjobs'); setShowProfile(false); }}
+                            className="w-full flex items-center gap-3 px-4 py-2.5 text-left text-gray-700 hover:bg-indigo-50 rounded-lg transition-all"
+                          >
+                            <FaBookmark className="text-indigo-600" />
+                            <span>Saved Jobs</span>
+                          </button>
+                          <button
+                            onClick={() => { navigate('/myapplication'); setShowProfile(false); }}
+                            className="w-full flex items-center gap-3 px-4 py-2.5 text-left text-gray-700 hover:bg-indigo-50 rounded-lg transition-all"
+                          >
+                            <FaFileAlt className="text-indigo-600" />
+                            <span>My Applications</span>
+                          </button>
+                        </>
                       )}
 
                       {role === 'employer' && (
@@ -253,13 +277,22 @@ export default function Nav() {
                 </button>
 
                 {role === 'seeker' && (
-                  <button
-                    onClick={() => { navigate('/myapplication'); setOpenMobile(false); }}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700 bg-gray-50 hover:bg-indigo-50 rounded-lg transition-all font-medium"
-                  >
-                    <FaFileAlt className="text-indigo-600" />
-                    <span>My Applications</span>
-                  </button>
+                  <>
+                    <button
+                      onClick={() => { navigate('/savedjobs'); setOpenMobile(false); }}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700 bg-gray-50 hover:bg-indigo-50 rounded-lg transition-all font-medium"
+                    >
+                      <FaBookmark className="text-indigo-600" />
+                      <span>Saved Jobs</span>
+                    </button>
+                    <button
+                      onClick={() => { navigate('/myapplication'); setOpenMobile(false); }}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700 bg-gray-50 hover:bg-indigo-50 rounded-lg transition-all font-medium"
+                    >
+                      <FaFileAlt className="text-indigo-600" />
+                      <span>My Applications</span>
+                    </button>
+                  </>
                 )}
 
                 {role === 'employer' && (

@@ -9,6 +9,7 @@ import authRouter from './Router/authRoute.js';
 import profileRouter from './Router/profileRoute.js';
 import jobRouter from './Router/jobRoute.js';
 import applicationRouter from './Router/applicationRoute.js';
+import savedJobRouter from './Router/savedJobRoute.js';
 import cors from 'cors';
 import userRouter from './Router/userRoute.js';
 
@@ -26,6 +27,7 @@ app.use("/api/auth",authRouter);
 app.use('/api/profile', profileRouter);
 app.use('/api/jobs', jobRouter);
 app.use('/api/applications', applicationRouter);
+app.use('/api/saved-jobs', savedJobRouter);
 app.use('/uploads', express.static('uploads'));
 app.use("/api/user",userRouter);
 

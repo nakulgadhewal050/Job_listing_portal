@@ -121,7 +121,12 @@ export const updateMe = async (req, res) => {
 export const uploadResume = async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ message: 'No file uploaded' })
-    const url = `/uploads/resumes/${req.file.filename}`
+    
+    // Upload resume to Cloudinary
+    const resumeUrl = await uploadOnCloudinary(req.file, { 
+      folder: 'job-portal/resumes',
+      resource_type: 'raw' // For non-image files like PDFs
+    })
     
     const user = await User.findById(req.userId)
     if (!user) return res.status(404).json({ message: 'User not found' })
@@ -131,11 +136,11 @@ export const uploadResume = async (req, res) => {
       if (!seekerProfile) {
         seekerProfile = new SeekerProfile({ userId: req.userId })
       }
-      seekerProfile.resumeUrl = url
+      seekerProfile.resumeUrl = resumeUrl
       await seekerProfile.save()
     }
     
-    res.json({ resumeUrl: url })
+    res.json({ resumeUrl })
   } catch (e) {
     console.error(e)
     res.status(500).json({ message: 'Failed to upload resume' })

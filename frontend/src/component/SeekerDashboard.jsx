@@ -3,7 +3,7 @@ import Nav from './Nav'
 import axios from 'axios'
 import { serverUrl } from '../App'
 import { toast } from 'react-toastify'
-import { FaSearch, FaMapMarkerAlt, FaDollarSign, FaBriefcase, FaFilter, FaTimes, FaPaperPlane, FaCheckCircle } from 'react-icons/fa'
+import { FaSearch, FaMapMarkerAlt, FaDollarSign, FaBriefcase, FaFilter, FaTimes, FaPaperPlane, FaCheckCircle, FaBookmark, FaRegBookmark } from 'react-icons/fa'
 import { MdWork } from 'react-icons/md'
 
 function SeekerDashboard() {
@@ -19,10 +19,12 @@ function SeekerDashboard() {
   const [coverLetter, setCoverLetter] = useState('')
   const [applying, setApplying] = useState(false)
   const [appliedJobs, setAppliedJobs] = useState(new Set())
+  const [savedJobs, setSavedJobs] = useState(new Set())
 
   useEffect(() => {
     fetchJobs()
     checkAppliedJobs()
+    fetchSavedJobIds()
   }, [])
 
   useEffect(() => {
@@ -50,6 +52,38 @@ function SeekerDashboard() {
       setAppliedJobs(appliedJobIds)
     } catch (error) {
       console.error('Check applied jobs error:', error)
+    }
+  }
+
+  const fetchSavedJobIds = async () => {
+    try {
+      const res = await axios.get(`${serverUrl}/api/saved-jobs/saved-ids`, { withCredentials: true })
+      setSavedJobs(new Set(res.data))
+    } catch (error) {
+      console.error('Fetch saved jobs error:', error)
+    }
+  }
+
+  const toggleSaveJob = async (jobId) => {
+    try {
+      if (savedJobs.has(jobId)) {
+        // Unsave
+        await axios.delete(`${serverUrl}/api/saved-jobs/unsave/${jobId}`, { withCredentials: true })
+        setSavedJobs(prev => {
+          const newSet = new Set(prev)
+          newSet.delete(jobId)
+          return newSet
+        })
+        toast.success('Job removed from saved jobs')
+      } else {
+        // Save
+        await axios.post(`${serverUrl}/api/saved-jobs/save`, { jobId }, { withCredentials: true })
+        setSavedJobs(prev => new Set([...prev, jobId]))
+        toast.success('Job saved successfully!')
+      }
+    } catch (error) {
+      console.error('Toggle save job error:', error)
+      toast.error(error.response?.data?.message || 'Failed to save job')
     }
   }
 
@@ -315,8 +349,21 @@ function SeekerDashboard() {
                   )}
                   
                   <div className='flex items-center justify-between pt-4 border-t border-gray-200'>
-                    <div className='text-xs text-gray-500'>
-                      Posted {new Date(job.createdAt).toLocaleDateString()}
+                    <div className='flex items-center gap-2'>
+                      <button
+                        onClick={() => toggleSaveJob(job._id)}
+                        className={`p-2 rounded-lg transition-all cursor-pointer ${
+                          savedJobs.has(job._id)
+                            ? 'text-yellow-600 bg-yellow-50 hover:bg-yellow-100'
+                            : 'text-gray-400 hover:text-yellow-600 hover:bg-yellow-50'
+                        }`}
+                        title={savedJobs.has(job._id) ? 'Remove from saved' : 'Save job'}
+                      >
+                        {savedJobs.has(job._id) ? <FaBookmark size={18} /> : <FaRegBookmark size={18} />}
+                      </button>
+                      <div className='text-xs text-gray-500'>
+                        Posted {new Date(job.createdAt).toLocaleDateString()}
+                      </div>
                     </div>
                     {appliedJobs.has(job._id) ? (
                       <button 

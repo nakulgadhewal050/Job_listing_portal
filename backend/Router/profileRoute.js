@@ -8,19 +8,6 @@ import { getMe, updateMe, uploadResume, uploadPhoto } from '../controller/profil
 
 const router = express.Router()
 
-// Ensure uploads/resumes exists
-const resumesDir = path.resolve('uploads', 'resumes')
-if (!fs.existsSync(resumesDir)) fs.mkdirSync(resumesDir, { recursive: true })
-
-const resumeStorage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, resumesDir),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname)
-    const base = path.basename(file.originalname, ext).replace(/[^a-z0-9_-]/gi, '_')
-    cb(null, `${Date.now()}_${base}${ext}`)
-  },
-})
-
 const resumeFilter = (req, file, cb) => {
   const allowed = ['.pdf', '.doc', '.docx']
   const ext = path.extname(file.originalname).toLowerCase()
@@ -28,8 +15,9 @@ const resumeFilter = (req, file, cb) => {
   cb(null, true)
 }
 
-// For photos we will use memory storage and upload directly to Cloudinary
-const photoStorage = multer.memoryStorage()
+// For photos and resumes we will use memory storage and upload directly to Cloudinary
+ const photoStorage = multer.memoryStorage()
+ const resumeStorage = multer.memoryStorage()
 
 const photoFilter = (req, file, cb) => {
   const ext = path.extname(file.originalname).toLowerCase()

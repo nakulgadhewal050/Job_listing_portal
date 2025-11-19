@@ -12,6 +12,7 @@ function Profile() {
   const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [uploadingPhoto, setUploadingPhoto] = useState(false)
+  const [uploadingResume, setUploadingResume] = useState(false)
   const [data, setData] = useState({
     fullname: '', phone: '', location: '', headline: '', email: '',
     companyName: '', companyWebsite: '', companyDescription: '', contactEmail: '', contactPhone: '',
@@ -21,6 +22,7 @@ function Profile() {
   })
   const role = userData?.role
   const fileInputRef = useRef(null)
+  const resumeFileInputRef = useRef(null)
 
   useEffect(() => {
     async function fetchProfile() {
@@ -101,6 +103,45 @@ function Profile() {
     } finally {
       setUploadingPhoto(false)
       if (fileInputRef.current) fileInputRef.current.value = ''
+    }
+  }
+
+  const handleResumeChange = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    
+    // Validate file type
+    if (file.type !== 'application/pdf') {
+      toast.error('Please select a PDF file')
+      return
+    }
+    
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Resume size should be less than 5MB')
+      return
+    }
+
+    setUploadingResume(true)
+    const form = new FormData()
+    form.append('resume', file)
+    
+    try {
+      const res = await axios.post(`${serverUrl}/api/profile/resume`, form, {
+        withCredentials: true,
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      
+      if (res.data?.resumeUrl) {
+        setData(prev => ({ ...prev, resumeUrl: res.data.resumeUrl }))
+      }
+      toast.success('📄 Resume uploaded successfully!')
+    } catch (err) {
+      console.error('Resume upload error:', err)
+      toast.error(err.response?.data?.message || 'Resume upload failed')
+    } finally {
+      setUploadingResume(false)
+      if (resumeFileInputRef.current) resumeFileInputRef.current.value = ''
     }
   }
 
@@ -527,17 +568,56 @@ function Profile() {
                   <div>
                     <label className='flex items-center gap-2 text-sm font-medium text-gray-700 mb-2'>
                       <FaFileAlt className='text-gray-400' />
-                      Resume URL
+                      Resume
                     </label>
                     <input
-                      name='resumeUrl'
-                      value={data.resumeUrl || ''}
-                      onChange={handleChange}
-                      className='w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all'
-                      placeholder='https://drive.google.com/your-resume'
+                      type='file'
+                      ref={resumeFileInputRef}
+                      onChange={handleResumeChange}
+                      accept='application/pdf'
+                      className='hidden'
                     />
+                    <div className='flex flex-col gap-3'>
+                      <button
+                        type='button'
+                        onClick={() => resumeFileInputRef.current?.click()}
+                        disabled={uploadingResume}
+                        className='w-full flex items-center justify-center gap-2 border-2 border-dashed border-gray-300 rounded-lg px-4 py-8 text-sm hover:border-indigo-500 hover:bg-indigo-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed'
+                      >
+                        {uploadingResume ? (
+                          <>
+                            <FaSpinner className='animate-spin text-indigo-600' />
+                            <span className='text-gray-600'>Uploading...</span>
+                          </>
+                        ) : (
+                          <>
+                            <FaFileAlt className='text-indigo-600 text-2xl' />
+                            <div className='text-center'>
+                              <p className='text-gray-700 font-medium'>Click to upload resume</p>
+                              <p className='text-xs text-gray-500 mt-1'>PDF only, max 5MB</p>
+                            </div>
+                          </>
+                        )}
+                      </button>
+                      {data.resumeUrl && (
+                        <div className='flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg'>
+                          <FaFileAlt className='text-green-600' />
+                          <div className='flex-1'>
+                            <p className='text-sm font-medium text-green-800'>Resume uploaded</p>
+                            <a
+                              href={data.resumeUrl}
+                              target='_blank'
+                              rel='noopener noreferrer'
+                              className='text-xs text-green-600 hover:underline'
+                            >
+                              View Resume
+                            </a>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                     <p className='mt-2 text-xs text-gray-500 flex items-center gap-1'>
-                      💡 Tip: Upload your resume to Google Drive or Dropbox and paste the link here
+                      💡 Tip: Upload your resume as a PDF file for best compatibility
                     </p>
                   </div>
                 </div>
