@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import express, { urlencoded } from 'express';
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 import cookieParser from "cookie-parser";
 import connectDB from './config/db.js';
 import authRouter from './Router/authRoute.js';

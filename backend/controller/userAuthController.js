@@ -83,7 +83,7 @@ export const Login = async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
 
-        console.log("login successfully")
+        console.log("login successfully, token:", token ? "generated" : "not generated")
         return res.status(200).json(user);
 
     } catch (error) {
@@ -94,7 +94,12 @@ export const Login = async (req, res) => {
 
 export const Logout = async (req, res) => {
     try {
-        res.clearCookie("token")
+        res.cookie("token", "", {
+            secure: true,
+            sameSite: "none",
+            httpOnly: true,
+            maxAge: 0
+        })
         res.status(200).json({ message: "Logged out successfully" })
     } catch (error) {
         res.status(500).json({ message: "Error in logout" })
