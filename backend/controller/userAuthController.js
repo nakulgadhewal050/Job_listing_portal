@@ -42,6 +42,9 @@ export const Signup = async (req, res) => {
 
         const token = await generateToken(user._id);
 
+        console.log('Signup - Token generated:', !!token);
+        console.log('Signup - Setting cookie with secure:true, sameSite:none');
+        
         res.cookie("token", token, {
             secure: true,
             sameSite: "none",
@@ -49,7 +52,7 @@ export const Signup = async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
 
-        console.log("signup successfully")
+        console.log("signup successfully for user:", user.email)
         res.status(201).json(user);
 
     } catch (error) {
@@ -76,6 +79,9 @@ export const Login = async (req, res) => {
 
         const token = await generateToken(user._id);
 
+        console.log('Login - Token generated:', !!token);
+        console.log('Login - Setting cookie with secure:true, sameSite:none');
+        
         res.cookie("token", token, {
             secure: true,
             sameSite: "none",
@@ -84,6 +90,7 @@ export const Login = async (req, res) => {
         })
 
         console.log("login successfully, token:", token ? "generated" : "not generated")
+        console.log("User logged in:", user.email)
         return res.status(200).json(user);
 
     } catch (error) {
