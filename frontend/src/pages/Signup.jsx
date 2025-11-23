@@ -16,7 +16,6 @@ function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -111,11 +110,10 @@ function Signup() {
               <button
                 type="button"
                 onClick={() => setRole('seeker')}
-                className={`group relative px-4 py-4 rounded-xl font-medium cursor-pointer transition-all duration-300 ${
-                  role === 'seeker'
+                className={`group relative px-4 py-4 rounded-xl font-medium cursor-pointer transition-all duration-300 ${role === 'seeker'
                     ? 'bg-linear-to-br from-indigo-600 to-purple-600 text-white shadow-lg scale-105'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}>
+                  }`}>
                 <div className="flex flex-col items-center gap-2">
                   <FaBriefcase className="text-xl" />
                   <span>Job Seeker</span>
@@ -127,11 +125,10 @@ function Signup() {
               <button
                 type="button"
                 onClick={() => setRole('employer')}
-                className={`group relative px-4 py-4 rounded-xl font-medium cursor-pointer transition-all duration-300 ${
-                  role === 'employer'
+                className={`group relative px-4 py-4 rounded-xl font-medium cursor-pointer transition-all duration-300 ${role === 'employer'
                     ? 'bg-linear-to-br from-indigo-600 to-purple-600 text-white shadow-lg scale-105'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}>
+                  }`}>
                 <div className="flex flex-col items-center gap-2">
                   <FaUserTie className="text-xl" />
                   <span>Employer</span>
@@ -222,18 +219,16 @@ function Signup() {
                 <div className="mt-2">
                   <div className="flex items-center justify-between text-xs mb-1">
                     <span className="text-gray-600">Password strength:</span>
-                    <span className={`font-medium ${
-                      passwordStrengthLabel(password) === 'Very strong' ? 'text-green-600' :
-                      passwordStrengthLabel(password) === 'Strong' ? 'text-blue-600' :
-                      passwordStrengthLabel(password) === 'Okay' ? 'text-yellow-600' : 'text-red-600'
-                    }`}>{passwordStrengthLabel(password)}</span>
+                    <span className={`font-medium ${passwordStrengthLabel(password) === 'Very strong' ? 'text-green-600' :
+                        passwordStrengthLabel(password) === 'Strong' ? 'text-blue-600' :
+                          passwordStrengthLabel(password) === 'Okay' ? 'text-yellow-600' : 'text-red-600'
+                      }`}>{passwordStrengthLabel(password)}</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-1.5">
-                    <div className={`h-1.5 rounded-full transition-all ${
-                      passwordStrengthLabel(password) === 'Very strong' ? 'w-full bg-green-500' :
-                      passwordStrengthLabel(password) === 'Strong' ? 'w-3/4 bg-blue-500' :
-                      passwordStrengthLabel(password) === 'Okay' ? 'w-1/2 bg-yellow-500' : 'w-1/4 bg-red-500'
-                    }`}></div>
+                    <div className={`h-1.5 rounded-full transition-all ${passwordStrengthLabel(password) === 'Very strong' ? 'w-full bg-green-500' :
+                        passwordStrengthLabel(password) === 'Strong' ? 'w-3/4 bg-blue-500' :
+                          passwordStrengthLabel(password) === 'Okay' ? 'w-1/2 bg-yellow-500' : 'w-1/4 bg-red-500'
+                      }`}></div>
                   </div>
                 </div>
               )}

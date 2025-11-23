@@ -41,9 +41,6 @@ export const Signup = async (req, res) => {
         })
 
         const token = await generateToken(user._id);
-
-        console.log('Signup - Token generated:', !!token);
-        console.log('Signup - Setting cookie with secure:true, sameSite:none');
         
         res.cookie("token", token, {
             secure: true,
@@ -52,7 +49,6 @@ export const Signup = async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
 
-        console.log("signup successfully for user:", user.email)
         res.status(201).json(user);
 
     } catch (error) {
