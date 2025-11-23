@@ -18,8 +18,8 @@ export const serverUrl = "https://job-listing-portal-backend-p59w.onrender.com"
 
 
 function App() {
+  getCurrentUser();
   const {userData} = useSelector((state) => state.user);
-    getCurrentUser();
 
   return (
     <>
