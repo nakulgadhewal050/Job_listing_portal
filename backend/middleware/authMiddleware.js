@@ -14,7 +14,6 @@ export const protect = async (req, res, next) => {
         req.userId = decoded.userId;
         next();
     } catch (error) {
-        console.log('Auth middleware error:', error.message);
         return res.status(401).json({ message: 'Token invalid' });
     }
 }

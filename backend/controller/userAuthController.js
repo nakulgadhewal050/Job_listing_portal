@@ -74,9 +74,6 @@ export const Login = async (req, res) => {
         }
 
         const token = await generateToken(user._id);
-
-        console.log('Login - Token generated:', !!token);
-        console.log('Login - Setting cookie with secure:true, sameSite:none');
         
         res.cookie("token", token, {
             secure: true,
@@ -85,12 +82,11 @@ export const Login = async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
 
-        console.log("login successfully, token:", token ? "generated" : "not generated")
-        console.log("User logged in:", user.email)
+        
         return res.status(200).json(user);
 
     } catch (error) {
-        console.log("login error:", error);
+        
         res.status(500).json({message: "Error in login"});
     }
 }

@@ -26,7 +26,7 @@ function Signup() {
     if (!name.trim()) e.name = 'Full name is required.';
     if (!email.match(/^\S+@\S+\.\S+$/)) e.email = 'Valid email is required.';
     if (password.length < 6) e.password = 'Password must be at least 8 characters.';
-    if (phone.length < 10 && !phone.match(/^\+?[0-9 -]{7,15}$/)) e.phone = 'Enter a valid phone number.';
+    if (phone.length < 10 && !phone.match(/^\+?[0-9 -]{7,15}$/)) e.phone = 'Enter a valid phone number';
     return e;
   }
 
