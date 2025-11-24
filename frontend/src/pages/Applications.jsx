@@ -340,25 +340,15 @@ function Applications() {
               {selectedApplication.resumeUrl && (
                 <div>
                   <h3 className='text-lg font-semibold text-gray-900 mb-3'>Resume</h3>
-                  <div className='flex gap-3'>
-                    <a
-                      href={selectedApplication.resumeUrl}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-all cursor-pointer'
-                    >
-                      <FaFileAlt />
-                      View Resume
-                    </a>
-                    <a
-                      href={selectedApplication.resumeUrl}
-                      download
-                      className='inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-all cursor-pointer'
-                    >
-                      <FaFileAlt />
-                      Download Resume
-                    </a>
-                  </div>
+                  <a
+                    href={selectedApplication.resumeUrl}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-all cursor-pointer'
+                  >
+                    <FaFileAlt />
+                    View Resume
+                  </a>
                 </div>
               )}
 
