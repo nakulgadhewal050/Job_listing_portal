@@ -605,11 +605,10 @@ function Profile() {
                           <div className='flex-1'>
                             <p className='text-sm font-medium text-green-800'>Resume uploaded</p>
                             <a
-                              href={data.resumeUrl}
+                              href={`https://docs.google.com/viewer?url=${encodeURIComponent(data.resumeUrl)}&embedded=true`}
                               target='_blank'
                               rel='noopener noreferrer'
-                              className='text-xs text-green-600 hover:underline'
-                            >
+                              className='text-xs text-green-600 hover:underline'>
                               View Resume
                             </a>
                           </div>

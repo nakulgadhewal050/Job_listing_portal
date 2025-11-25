@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { FaUsers, FaSearch, FaFilter, FaBriefcase, FaEnvelope, FaPhone, FaCalendarAlt, FaFileAlt, FaChevronDown } from 'react-icons/fa'
+import { FaUsers, FaSearch, FaFilter, FaBriefcase, FaEnvelope, FaCalendarAlt, FaFileAlt, FaChevronDown } from 'react-icons/fa'
 import Nav from '../component/Nav'
 import { toast } from 'react-toastify'
 import axios from 'axios'
@@ -341,22 +341,15 @@ function Applications() {
                 <div>
                   <h3 className='text-lg font-semibold text-gray-900 mb-3'>Resume</h3>
                   <div className='flex gap-3'>
+
                     <a
-                      href={selectedApplication.resumeUrl.replace('/upload/', '/upload/fl_attachment/')}
-                      download
-                      className='inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-all cursor-pointer'
-                    >
-                      <FaFileAlt />
-                      Download Resume
-                    </a>
-                    <a
-                      href={selectedApplication.resumeUrl}
+                      href={`https://docs.google.com/viewer?url=${encodeURIComponent(selectedApplication.resumeUrl)}&embedded=true`}
                       target='_blank'
                       rel='noopener noreferrer'
                       className='inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-all cursor-pointer'
                     >
                       <FaFileAlt />
-                      View in Browser
+                      View Resume
                     </a>
                   </div>
                 </div>

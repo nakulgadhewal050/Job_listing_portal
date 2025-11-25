@@ -505,25 +505,15 @@ function EmployeeDashboard() {
 
                       {app.resumeUrl && (
                         <div className='mt-3 pt-3 border-t border-gray-300'>
-                          <div className='flex gap-3'>
-                            <a
-                              href={app.resumeUrl.replace('/upload/', '/upload/fl_attachment/')}
-                              download
-                              className='inline-flex items-center gap-2 text-sm text-green-600 hover:text-green-800 font-medium'
-                            >
-                              <FaFileAlt />
-                              Download
-                            </a>
-                            <a
-                              href={app.resumeUrl}
-                              target='_blank'
-                              rel='noopener noreferrer'
-                              className='inline-flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-800 font-medium'
-                            >
-                              <FaFileAlt />
-                              View Resume
-                            </a>
-                          </div>
+                          <a
+                            href={app.resumeUrl}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            className='inline-flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-800 font-medium'
+                          >
+                            <FaFileAlt />
+                            View Resume
+                          </a>
                         </div>
                       )}
 
