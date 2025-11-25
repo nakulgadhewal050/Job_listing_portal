@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { FaMapMarkerAlt, FaDollarSign, FaBriefcase, FaTrash, FaBookmark, FaPaperPlane } from 'react-icons/fa'
+import { useState, useEffect } from 'react'
+import { FaMapMarkerAlt, FaDollarSign, FaTrash, FaBookmark, FaPaperPlane } from 'react-icons/fa'
 import Nav from '../component/Nav'
 import { toast } from 'react-toastify'
 import axios from 'axios'

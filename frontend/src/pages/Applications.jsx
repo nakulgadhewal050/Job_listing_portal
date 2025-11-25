@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import  { useState, useEffect } from 'react'
 import { FaUsers, FaSearch, FaFilter, FaBriefcase, FaEnvelope, FaCalendarAlt, FaFileAlt, FaChevronDown } from 'react-icons/fa'
 import Nav from '../component/Nav'
 import { toast } from 'react-toastify'

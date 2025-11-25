@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { FaBriefcase, FaUser, FaFileAlt, FaSignOutAlt, FaTachometerAlt, FaBars, FaTimes, FaBookmark } from 'react-icons/fa'
+import { FaBriefcase, FaUser, FaFileAlt, FaSignOutAlt, FaTachometerAlt, FaBars, FaTimes, FaBookmark, FaMoon, FaSun } from 'react-icons/fa'
 import axios from 'axios'
 import { serverUrl } from '../App'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,6 +14,7 @@ export default function Nav() {
 
   const [openMobile, setOpenMobile] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
+  const [darkMode, setDarkMode] = useState(false)
   const profileRef = useRef(null)
 
   const capitalize = (str) => {
@@ -22,7 +23,27 @@ export default function Nav() {
     return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
   }
 
-  // Close profile dropdown when clicking outside
+  useEffect(() => {
+    const savedDarkMode = localStorage.getItem('darkMode') === 'true'
+    setDarkMode(savedDarkMode)
+    if (savedDarkMode) {
+      document.body.classList.add('dark-mode')
+    }
+  }, [])
+
+  
+  const toggleDarkMode = () => {
+    const newDarkMode = !darkMode
+    setDarkMode(newDarkMode)
+    localStorage.setItem('darkMode', newDarkMode)
+    if (newDarkMode) {
+      document.body.classList.add('dark-mode')
+    } else {
+      document.body.classList.remove('dark-mode')
+    }
+  }
+
+ 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (profileRef.current && !profileRef.current.contains(event.target)) {
@@ -140,6 +161,15 @@ export default function Nav() {
 
           {/* Right Side */}
           <div className="flex items-center gap-4">
+            {/* Dark Mode Toggle */}
+            <button
+              onClick={toggleDarkMode}
+              className="p-2 rounded-lg bg-white/20 hover:bg-white/30 text-white transition-all backdrop-blur-sm border border-white/30"
+              aria-label="Toggle dark mode"
+            >
+              {darkMode ? <FaSun className="text-lg" /> : <FaMoon className="text-lg" />}
+            </button>
+
             {userData ? (
               <div className="relative" ref={profileRef}>
                 <button

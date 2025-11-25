@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 import { serverUrl } from '../App'
@@ -69,13 +69,11 @@ function Profile() {
     const file = e.target.files?.[0]
     if (!file) return
     
-    // Validate file type
     if (!file.type.startsWith('image/')) {
       toast.error('Please select an image file')
       return
     }
     
-    // Validate file size (max 3MB)
     if (file.size > 3 * 1024 * 1024) {
       toast.error('Image size should be less than 3MB')
       return
@@ -109,14 +107,12 @@ function Profile() {
   const handleResumeChange = async (e) => {
     const file = e.target.files?.[0]
     if (!file) return
-    
-    // Validate file type
+  
     if (file.type !== 'application/pdf') {
       toast.error('Please select a PDF file')
       return
     }
-    
-    // Validate file size (max 5MB)
+
     if (file.size > 5 * 1024 * 1024) {
       toast.error('Resume size should be less than 5MB')
       return
@@ -145,7 +141,6 @@ function Profile() {
     }
   }
 
-  // Experience handlers
   const addExperience = () => {
     setData(prev => ({
       ...prev,

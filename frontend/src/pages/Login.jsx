@@ -9,8 +9,7 @@ import { ClipLoader } from 'react-spinners';
 import { Slide, toast } from 'react-toastify';
 
 function Login() {
-
-  const [role, setRole] = useState('seeker');
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);

@@ -1,6 +1,165 @@
 @import "tailwindcss";
 
-/* Custom animations for blob effect */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+  background-color: #0a0a0a;
+  color: #eaeaea;
+}
+
+body.dark-mode * {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+body.dark-mode .bg-white {
+  background-color: #1a1a1a !important;
+  color: #eaeaea !important;
+}
+
+body.dark-mode .bg-linear-to-br {
+  background: linear-gradient(to bottom right, #1a1a2e, #16213e, #0f1624) !important;
+}
+
+body.dark-mode .bg-linear-to-r {
+  background: linear-gradient(to right, #1a1a2e, #16213e, #1a1a2e) !important;
+}
+
+
+body.dark-mode .bg-clip-text {
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+
+body.dark-mode .text-transparent {
+  color: transparent !important;
+}
+
+
+body.dark-mode h1.text-transparent {
+  background: linear-gradient(to right, #a78bfa, #c084fc, #f0abfc) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+
+body.dark-mode .text-gray-900 {
+  color: #eaeaea !important;
+}
+
+body.dark-mode .text-gray-800 {
+  color: #d4d4d4 !important;
+}
+
+body.dark-mode .text-gray-700 {
+  color: #c0c0c0 !important;
+}
+
+body.dark-mode .text-gray-600 {
+  color: #a0a0a0 !important;
+}
+
+body.dark-mode .text-gray-500 {
+  color: #808080 !important;
+}
+
+body.dark-mode .bg-gray-50 {
+  background-color: #1a1a2e !important;
+}
+
+body.dark-mode .bg-gray-100 {
+  background-color: #16213e !important;
+}
+
+body.dark-mode .bg-indigo-50,
+body.dark-mode .bg-blue-50,
+body.dark-mode .bg-purple-50,
+body.dark-mode .bg-pink-50,
+body.dark-mode .bg-green-50,
+body.dark-mode .bg-yellow-50,
+body.dark-mode .bg-red-50 {
+  background-color: #1a1a2e !important;
+}
+
+body.dark-mode .border-gray-100 {
+  border-color: #2a2a2a !important;
+}
+
+body.dark-mode .border-gray-200 {
+  border-color: #333333 !important;
+}
+
+body.dark-mode .border-gray-300 {
+  border-color: #444444 !important;
+}
+
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+  background-color: #1a1a2e !important;
+  color: #eaeaea !important;
+  border-color: #444444 !important;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+  color: #707070 !important;
+}
+
+body.dark-mode .shadow-lg,
+body.dark-mode .shadow-xl,
+body.dark-mode .shadow-2xl {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
+}
+
+body.dark-mode .hover\:bg-gray-100:hover {
+  background-color: #2a2a2a !important;
+}
+
+body.dark-mode .hover\:bg-indigo-50:hover {
+  background-color: #1a1a2e !important;
+}
+
+
+body.dark-mode .bg-white\/80,
+body.dark-mode .bg-white\/10,
+body.dark-mode .bg-white\/20 {
+  background-color: rgba(26, 26, 46, 0.8) !important;
+}
+
+body.dark-mode .backdrop-blur-lg {
+  backdrop-filter: blur(16px);
+}
+
+
+body.dark-mode .border-white\/20 {
+  border-color: rgba(68, 68, 68, 0.3) !important;
+}
+
+
+body.dark-mode .text-indigo-600,
+body.dark-mode .text-purple-600,
+body.dark-mode .text-pink-600,
+body.dark-mode .text-blue-600,
+body.dark-mode .text-indigo-400 {
+  filter: brightness(1.3);
+}
+
+
+body.dark-mode .bg-gray-900 {
+  background-color: #0a0a0a !important;
+}
+
+body.dark-mode .text-gray-400 {
+  color: #9ca3af !important;
+}
+
+body.dark-mode .border-gray-800 {
+  border-color: #1f2937 !important;
+}
+
+
 @keyframes blob {
   0% {
     transform: translate(0px, 0px) scale(1);
@@ -28,7 +187,7 @@
   animation-delay: 4s;
 }
 
-/* Fade in animation for dropdown */
+
 @keyframes fadeIn {
   from {
     opacity: 0;

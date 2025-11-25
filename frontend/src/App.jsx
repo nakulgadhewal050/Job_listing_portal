@@ -1,6 +1,5 @@
-import React from 'react'
 import { useSelector } from 'react-redux';
-import { Route, Routes, Navigate } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import Signup from './pages/Signup'
 import Login from './pages/Login'
 import Home from './pages/Home';

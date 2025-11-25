@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FaRegEyeSlash, FaRegEye, FaUser, FaEnvelope, FaPhone, FaLock, FaBriefcase, FaUserTie } from "react-icons/fa";
 import axios from 'axios';
 import { serverUrl } from '../App.jsx';

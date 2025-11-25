@@ -1,4 +1,3 @@
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FaBriefcase, FaUsers, FaRocket, FaCheckCircle, FaSearch, FaBuilding, FaChartLine, FaShieldAlt } from 'react-icons/fa'
 import Nav from '../component/Nav'
