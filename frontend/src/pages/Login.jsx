@@ -10,9 +10,10 @@ import { Slide, toast } from 'react-toastify';
 import { FcGoogle } from 'react-icons/fc';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../firebase';
+import { FaBriefcase, FaUserTie } from 'react-icons/fa';
 
 function Login() {
-
+  const [role, setRole] = useState('seeker');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -72,16 +73,21 @@ function Login() {
   }
 
   const handleGoogleLogin = async () => {
-    setLoading(true);
-    const provider = new GoogleAuthProvider();
     try {
-      const result = await signInWithPopup(auth, provider)
+      setLoading(true);
+      setErrors({});
+      const provider = new GoogleAuthProvider();
+
+      const result = await signInWithPopup(auth, provider);
+
       const { data } = await axios.post(`${serverUrl}/api/auth/googleAuth`, {
         email: result.user.email,
         fullname: result.user.displayName,
+        role: role,
       }, { withCredentials: true });
+
       dispatch(setUserData(data));
-      setLoading(false);
+
       toast.success('Login successful!', {
         position: "top-right",
         autoClose: 5000,
@@ -93,10 +99,14 @@ function Login() {
         theme: "light",
         transition: Slide,
       });
+
+      setLoading(false);
       navigate('/');
+
     } catch (error) {
       setLoading(false);
       console.error("Google login error:", error);
+      const errorMessage = error?.response?.data?.message;
       setErrors({ general: errorMessage });
       toast.error(errorMessage, {
         position: "top-right",
@@ -137,6 +147,42 @@ function Login() {
               Welcome Back
             </h1>
             <p className="text-gray-600">Log in to continue your journey</p>
+          </div>
+
+          <div className="mb-6">
+            <label className="block text-sm font-semibold text-gray-700 mb-4 text-center">Select Your Role</label>
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                type="button"
+                onClick={() => setRole('seeker')}
+                className={`group relative px-4 py-5 rounded-2xl font-semibold cursor-pointer transition-all duration-300 transform hover:scale-105 ${role === 'seeker'
+                  ? 'bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-xl scale-105'
+                  : 'bg-gradient-to-br from-gray-50 to-gray-100 text-gray-700 hover:shadow-lg border border-gray-200'
+                  }`}>
+                <div className="flex flex-col items-center gap-2">
+                  <FaBriefcase className="text-2xl" />
+                  <span>Job Seeker</span>
+                </div>
+                {role === 'seeker' && (
+                  <div className="absolute inset-0 rounded-2xl bg-white opacity-20 animate-pulse"></div>
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => setRole('employer')}
+                className={`group relative px-4 py-5 rounded-2xl font-semibold cursor-pointer transition-all duration-300 transform hover:scale-105 ${role === 'employer'
+                  ? 'bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-xl scale-105'
+                  : 'bg-gradient-to-br from-gray-50 to-gray-100 text-gray-700 hover:shadow-lg border border-gray-200'
+                  }`}>
+                <div className="flex flex-col items-center gap-2">
+                  <FaUserTie className="text-2xl" />
+                  <span>Employer</span>
+                </div>
+                {role === 'employer' && (
+                  <div className="absolute inset-0 rounded-2xl bg-white opacity-20 animate-pulse"></div>
+                )}
+              </button>
+            </div>
           </div>
 
           <div className="space-y-5">

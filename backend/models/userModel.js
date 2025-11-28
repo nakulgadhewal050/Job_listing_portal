@@ -20,7 +20,6 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['seeker', 'employer'],
-        required: true
     },
     avatarUrl: { 
         type: String 
