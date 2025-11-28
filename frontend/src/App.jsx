@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import MyApplication from './pages/MyApplication.jsx';
 import Applications from './pages/Applications.jsx';
 import SavedJobs from './pages/SavedJobs.jsx';
-export const serverUrl = "https://job-listing-portal-backend-p59w.onrender.com"
+export const serverUrl =  "http://localhost:3000" || import.meta.env.VITE_SERVER_URL;
 
 
 
