@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaRegEyeSlash, FaRegEye, FaUser, FaEnvelope, FaPhone, FaLock, FaBriefcase, FaUserTie } from "react-icons/fa";
 import axios from 'axios';
 import { serverUrl } from '../App.jsx';
@@ -129,6 +129,10 @@ function Signup() {
       });
     }
   }
+
+  useEffect(() => {
+    setErrors({});
+  }, [email, password, name, phone, role]);
 
 
   return (
@@ -318,7 +322,7 @@ function Signup() {
 
           <button onClick={handleGoogleSignup}
             disabled={loading}
-            className="w-full h-14 bg-white rounded-xl flex items-center justify-center mt-6 cursor-pointer hover:scale-[1.02] active:scale-95 transition-all duration-300 border-2 border-gray-200 hover:border-gray-300 shadow-md hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed">
+            className="w-full h-14 bg-white rounded-xl flex items-center justify-center mt-6 cursor-pointer hover:scale-[1.02]  transition-all duration-300 border-2 border-gray-200  disabled:opacity-60 disabled:cursor-not-allowed">
             {loading ? (
               <>
                 <ClipLoader size={22} color="#4F46E5" />
@@ -339,7 +343,7 @@ function Signup() {
               <button
                 type="button"
                 onClick={() => navigate("/login")}
-                className="text-indigo-600 font-bold hover:text-purple-600 transition-colors cursor-pointer underline decoration-2 underline-offset-2">
+                className="text-blue-600 font-semibold hover:text-indigo-600 transition-colors hover:underline cursor-pointer">
                 Log in
               </button>
             </p>

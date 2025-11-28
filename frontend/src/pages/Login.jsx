@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaRegEyeSlash, FaRegEye, FaEnvelope, FaLock, FaSignInAlt } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -7,9 +7,12 @@ import { serverUrl } from '../App';
 import { setUserData } from '../redux/userSlice';
 import { ClipLoader } from 'react-spinners';
 import { Slide, toast } from 'react-toastify';
+import { FcGoogle } from 'react-icons/fc';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from '../../firebase';
 
 function Login() {
-  
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -68,10 +71,55 @@ function Login() {
     }
   }
 
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider)
+      const { data } = await axios.post(`${serverUrl}/api/auth/googleAuth`, {
+        email: result.user.email,
+        fullname: result.user.displayName,
+      }, { withCredentials: true });
+      dispatch(setUserData(data));
+      setLoading(false);
+      toast.success('Login successful!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
+      navigate('/');
+    } catch (error) {
+      setLoading(false);
+      console.error("Google login error:", error);
+      setErrors({ general: errorMessage });
+      toast.error(errorMessage, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
+    }
+  }
+
+  useEffect(() => {
+    setErrors({});
+  }, [email, password]);
+
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-linear-to-br from-blue-100 via-indigo-50 to-purple-100 relative overflow-hidden">
-      
+
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
@@ -149,13 +197,35 @@ function Login() {
             className="w-full mt-6 py-3 rounded-xl bg-linear-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2">
             {loading ? (
               <>
-                <ClipLoader size={20} color="white" />
-                <span>Logging in...</span>
+                <ClipLoader size={22} color="white" />
               </>
             ) : (
               <>
                 <FaSignInAlt />
                 <span>Log In</span>
+              </>
+            )}
+          </button>
+
+
+          <div className='flex items-center w-full mt-8'>
+            <div className='grow h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent'></div>
+            <span className='text-gray-500 font-semibold text-sm mx-4'>OR</span>
+            <div className='grow h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent'></div>
+          </div>
+
+          <button onClick={handleGoogleLogin}
+            disabled={loading}
+            className="w-full h-14 bg-white rounded-xl flex items-center justify-center mt-6 cursor-pointer hover:scale-[1.02]  transition-all duration-300 border-2 border-gray-200  disabled:opacity-60 disabled:cursor-not-allowed">
+            {loading ? (
+              <>
+                <ClipLoader size={22} color="#4F46E5" />
+
+              </>
+            ) : (
+              <>
+                <FcGoogle size={24} />
+                <span className='text-gray-700 font-bold ml-3 text-lg'>Continue with Google</span>
               </>
             )}
           </button>
@@ -167,7 +237,7 @@ function Login() {
               <button
                 type="button"
                 onClick={() => navigate("/signup")}
-                className="text-blue-600 font-semibold hover:text-indigo-600 transition-colors cursor-pointer">
+                className="text-blue-600 font-semibold hover:text-indigo-600 transition-colors hover:underline cursor-pointer">
                 Sign up
               </button>
             </p>
