@@ -41,7 +41,7 @@ export const Signup = async (req, res) => {
         })
 
         const token = await generateToken(user._id);
-        
+
         res.cookie("token", token, {
             secure: true,
             sameSite: "none",
@@ -59,22 +59,22 @@ export const Signup = async (req, res) => {
 
 export const Login = async (req, res) => {
     try {
-        const {email, password} = req.body;
+        const { email, password } = req.body;
 
-        const user = await User.findOne({email});
+        const user = await User.findOne({ email });
 
-        if(!user){
-            return res.status(400).json({message: "User not found"});
+        if (!user) {
+            return res.status(400).json({ message: "User not found" });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
 
-        if(!isMatch){
-            return res.status(400).json({message: "Invalid Password"});
+        if (!isMatch) {
+            return res.status(400).json({ message: "Invalid Password" });
         }
 
         const token = await generateToken(user._id);
-        
+
         res.cookie("token", token, {
             secure: true,
             sameSite: "none",
@@ -82,12 +82,12 @@ export const Login = async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
 
-        
+
         return res.status(200).json(user);
 
     } catch (error) {
-        
-        res.status(500).json({message: "Error in login"});
+
+        res.status(500).json({ message: "Error in login" });
     }
 }
 
@@ -107,10 +107,10 @@ export const Logout = async (req, res) => {
 
 export const googleAuth = async (req, res) => {
     try {
-        const {fullname, email, phone, role} = req.body;
-        let user = await User.findOne({email});
+        const { fullname, email, phone, role } = req.body;
+        let user = await User.findOne({ email });
 
-        if(user){
+        if (user) {
             const token = await generateToken(user._id);
 
             res.cookie("token", token, {
@@ -120,16 +120,14 @@ export const googleAuth = async (req, res) => {
                 path: "/",
                 maxAge: 7 * 24 * 60 * 60 * 1000
             })
-            
+
             return res.status(200).json(user);
         }
 
-    
-        if(!user){
-            return res.status(404).json({message: "User not found. Please sign up first."});
+        if (!role) {
+            return res.status(404).json({ message: "User not found. Please sign up first." });
         }
 
-       
         user = await User.create({
             fullname,
             email,
@@ -147,11 +145,11 @@ export const googleAuth = async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
 
-        
+
         return res.status(200).json(user);
 
     } catch (error) {
         console.error("Google Auth Error:", error);
-        return res.status(500).json({message: "Error in Google Auth", error: error.message})
+        return res.status(500).json({ message: "Error in Google Auth", error: error.message })
     }
 }

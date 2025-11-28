@@ -82,15 +82,11 @@ function Signup() {
       const provider = new GoogleAuthProvider();
       
       const result = await signInWithPopup(auth, provider);
-      
-      if (!result.user) {
-        throw new Error('Google authentication failed');
-      }
 
       const { data } = await axios.post(`${serverUrl}/api/auth/googleAuth`, {
-        fullname: result.user.displayName || 'User',
+        fullname: result.user.displayName,
         email: result.user.email,
-        phone: result.user.phoneNumber || '',
+        phone: result.user.phoneNumber,
         role: role
       }, { withCredentials: true });
       
