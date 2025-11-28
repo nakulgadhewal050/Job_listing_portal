@@ -115,13 +115,7 @@ function Signup() {
     } catch (error) {
       setLoading(false);
       console.error("Google signup error:", error);
-      
-      const errorMessage = error?.response?.data?.message 
-        || error?.message 
-        || 'Failed to sign up with Google. Please try again.';
-      
       setErrors({ general: errorMessage });
-      
       toast.error(errorMessage, {
         position: "top-right",
         autoClose: 5000,
