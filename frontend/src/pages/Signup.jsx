@@ -301,8 +301,7 @@ function Signup() {
               className="flex-1 py-4 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-bold text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2">
               {loading ? (
                 <>
-                  <ClipLoader size={20} color="white" />
-                  <span>Creating...</span>
+                  <ClipLoader size={22} color="white" />
                 </>
               ) : (
                 "Create Account"
@@ -322,8 +321,8 @@ function Signup() {
             className="w-full h-14 bg-white rounded-xl flex items-center justify-center mt-6 cursor-pointer hover:scale-[1.02] active:scale-95 transition-all duration-300 border-2 border-gray-200 hover:border-gray-300 shadow-md hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed">
             {loading ? (
               <>
-                <ClipLoader size={20} color="#4F46E5" />
-                <span className='text-gray-700 font-bold ml-3 text-lg'>Connecting...</span>
+                <ClipLoader size={22} color="#4F46E5" />
+            
               </>
             ) : (
               <>
