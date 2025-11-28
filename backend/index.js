@@ -26,11 +26,6 @@ app.use(cors({
             'https://job-listing-portal-frontend-9tvf.onrender.com',
             'http://localhost:5173'
         ];
-        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
@@ -39,9 +34,6 @@ app.use(cors({
     preflightContinue: false,
     optionsSuccessStatus: 204
 }));
-
-// Handle preflight requests
-app.options('*', cors());
 
 
 app.use("/api/auth",authRouter);
