@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useSelector } from 'react-redux'
 import { serverUrl } from '../App'
 import { toast } from 'react-toastify'
-import { FaCamera, FaUser, FaPhone, FaMapMarkerAlt, FaBriefcase, FaBuilding, FaGlobe, FaFileAlt, FaSave, FaSpinner, FaPlus, FaTrash } from 'react-icons/fa'
+import { FaCamera, FaUser, FaPhone, FaEmail, FaMapMarkerAlt, FaBriefcase, FaBuilding, FaGlobe, FaFileAlt, FaSave, FaSpinner, FaPlus, FaTrash } from 'react-icons/fa'
 import { MdEmail, MdWork } from 'react-icons/md'
 import Nav from '../component/Nav'
 
@@ -292,7 +292,7 @@ function Profile() {
 
                 <div>
                   <label className='flex items-center gap-2 text-sm font-medium text-gray-700 mb-2'>
-                    <FaPhone className='text-gray-400' />
+                    <FaEmail className='text-gray-400' />
                     Email
                   </label>
                   <input
