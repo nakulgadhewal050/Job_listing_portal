@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import express, { urlencoded } from 'express';
 const app = express();
-const PORT =  process.env.PORT || 3000;     
+const PORT =  process.env.PORT || 8080;     
 import cookieParser from "cookie-parser";
 import connectDB from './config/db.js';
 import authRouter from './Router/authRoute.js';
@@ -23,7 +23,6 @@ app.use(cors({
     origin: function (origin, callback) {
         const allowedOrigins = [
             process.env.FRONTEND_URL,
-            'https://job-listing-portal-frontend-9tvf.onrender.com',
             'http://localhost:5173'
         ];
         if (!origin || allowedOrigins.indexOf(origin) !== -1) {
